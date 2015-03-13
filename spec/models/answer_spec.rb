@@ -6,8 +6,8 @@ RSpec.describe Answer, type: :model do
     should validate_length_of(:body)
       .is_at_least(30)
       .is_at_most(1000)
-      .with_short_message("Answer must be at least %{ count } characters long")
-      .with_long_message("Answer must be shorter then %{ count } characters")
+      .with_short_message('Answer must be at least %{ count } characters long')
+      .with_long_message('Answer must be shorter then %{ count } characters')
   end
 
   it { should belong_to :question }

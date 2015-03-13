@@ -1,3 +1,13 @@
 LOG:  database system was shut down at 2015-03-12 19:21:29 MSK
 LOG:  autovacuum launcher started
 LOG:  database system is ready to accept connections
+ERROR:  syntax error at or near "hello" at character 1
+STATEMENT:  hello
+	;
+ERROR:  syntax error at or near "exit" at character 1
+STATEMENT:  exit()
+	quit()
+	.exit
+	;
+LOG:  using stale statistics instead of current ones because stats collector is not responding
+LOG:  using stale statistics instead of current ones because stats collector is not responding

@@ -3,7 +3,7 @@ class Answer < ActiveRecord::Base
 
   validates :body, presence: true,
                    length: { in: 30..1000,
-                             too_short: "Answer must be at least %{ count } characters long",
-                             too_long: "Answer must be shorter then %{ count } characters" }
+                             too_short: 'Answer must be at least %{ count } characters long',
+                             too_long: 'Answer must be shorter then %{ count } characters' }
   validates_associated :question
 end
