@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :answer do
     body "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-question nil
+    question
   end
-
 end
