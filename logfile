@@ -11,3 +11,8 @@ STATEMENT:  exit()
 	;
 LOG:  using stale statistics instead of current ones because stats collector is not responding
 LOG:  using stale statistics instead of current ones because stats collector is not responding
+LOG:  received SIGHUP, reloading configuration files
+LOG:  autovacuum launcher shutting down
+LOG:  received smart shutdown request
+LOG:  shutting down
+LOG:  database system is shut down
