@@ -1,9 +1,9 @@
 class AnswersController < ApplicationController
   before_action :load_question
 
-  #def index
-  #  @answers = Answer.find(params[:question_id])
-  #end
+  def index
+    @answers = @question.answers
+  end
 
   def new
     @answer = @question.answers.new

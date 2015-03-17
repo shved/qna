@@ -1,7 +1,9 @@
+require 'faker'
+
 FactoryGirl.define do
   factory :question do
-    title "xxxxxxxxxxxxxxx"
-    body "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    title Faker::Lorem.characters(15)
+    body Faker::Lorem.characters(30)
   end
 
   factory :invalid_question, class: "Question" do

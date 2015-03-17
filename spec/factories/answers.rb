@@ -1,6 +1,8 @@
+require 'faker'
+
 FactoryGirl.define do
   factory :answer do
-    body "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    body Faker::Lorem.characters(30)
     question
   end
 

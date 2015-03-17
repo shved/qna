@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="Rails qna: development" uuid="c440f27e-492f-4506-bf97-5adba7b2ac59">
+      <schema-pattern>qna_development.*</schema-pattern>
+      <default-schemas>qna_development.*</default-schemas>
+    </data-source>
+    <data-source name="Rails qna: test" uuid="6db2e407-d39e-4f9b-b2fe-cfaaa1fcdc2c">
+      <schema-pattern>qna_test.*</schema-pattern>
+      <default-schemas>qna_test.*</default-schemas>
+    </data-source>
+  </component>
+</project>

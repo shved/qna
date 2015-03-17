@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="2759307219">
+    <data-source source="LOCAL" name="Rails qna: development" uuid="c440f27e-492f-4506-bf97-5adba7b2ac59">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql:qna_development</jdbc-url>
+      <libraries />
+    </data-source>
+    <data-source source="LOCAL" name="Rails qna: test" uuid="6db2e407-d39e-4f9b-b2fe-cfaaa1fcdc2c">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql:qna_test</jdbc-url>
+      <libraries />
+    </data-source>
+  </component>
+</project>
