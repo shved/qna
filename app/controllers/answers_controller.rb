@@ -1,16 +1,8 @@
 class AnswersController < ApplicationController
   before_action :load_question
 
-  def index
-    @answers = @question.answers
-  end
-
   def new
     @answer = @question.answers.new
-  end
-
-  def edit
-
   end
 
   def create
