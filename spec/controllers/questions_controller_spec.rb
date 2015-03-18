@@ -10,7 +10,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     it 'populates an array of all questions' do
-      expect(assigns(:questions)).to match_array(questions)
+      expect(assigns(:questions)).to match_array(Question.all)
     end
 
     it 'renders index view' do
@@ -107,8 +107,8 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'does not change question attributes' do
         question.reload #ensure that we just took it from db
-        expect(question.title).to eq 'xxxxxxxxxxxxxxx'
-        expect(question.body).to eq 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+        expect(question.title).to_not eq '09876543211234'
+        expect(question.body).to_not eq '09876543210987654321098765432'
       end
 
       it 're-renders edit template' do
