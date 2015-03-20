@@ -6,13 +6,10 @@ feature 'Create question', %q{
   I want to be able to ask questions
 } do
 
-  scenario 'Authenticated user creates question' do
-    User.create!(email: 'user@mail.com', password: '12345678')
+  given(:user) { create(:user) }
 
-    visit new_user_session_path
-    fill_in 'Email', with: 'user@mail.com'
-    fill_in 'Password', with: '12345678'
-    click_on 'Log in'
+  scenario 'Authenticated user creates question' do
+    sign_in(user)
 
     visit questions_path
     click_on 'Ask question'
@@ -23,6 +20,11 @@ feature 'Create question', %q{
   end
 
   scenario 'Non-authenticated user tries to create question' do
+    visit new_user_session_path
+    fill_in 'Email', with: 'wrong@mail.com'
+    fill_in 'Password', with: '12345678'
+    click_on 'Log in'
+
     visit questions_path
     click_on 'Ask question'
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
