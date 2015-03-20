@@ -1,0 +1,14 @@
+h2= @question.title
+
+p= @question.body
+
+h4 Answers
+.answer
+  - @question.answers.each do |answer|
+    p= answer.body
+  hr
+
+- if current_user
+  small= link_to 'Create answer', "/questions/#{@question.id}/answers/new"
+- else
+  | Sign in or sign up to leave answers

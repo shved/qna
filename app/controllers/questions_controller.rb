@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
-  before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [ :index, :show ]
+  before_action :load_question, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @questions = Question.all
@@ -19,8 +20,10 @@ class QuestionsController < ApplicationController
     @question = Question.create(question_params)
 
     if @question.save
+      flash[:notice] = 'Your question successfully created.'
       redirect_to @question
     else
+      flash[:notice] = 'You must fill all fields.'
       render :new
     end
   end
