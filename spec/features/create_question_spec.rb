@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-feature 'Create question', %q{
+RSpec.feature 'Create question', %q{
   In order to get answer from community
   As an authenticated user
   I want to be able to ask questions
-} do
+}, type: :feature do
 
   given(:user) { create(:user) }
 

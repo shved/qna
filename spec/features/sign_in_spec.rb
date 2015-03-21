@@ -1,6 +1,10 @@
 require 'rails_helper'
 
-feature 'User sign in' do
+RSpec.feature 'User sign in', %q{
+  In order to create questions and answers
+  As a non-authenticated user
+  I want to sign in
+}, type: :feature do
 
   given(:user) { create(:user) }
 
