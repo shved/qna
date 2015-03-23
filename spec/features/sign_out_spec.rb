@@ -9,10 +9,10 @@ RSpec.feature '', %q{
 
   scenario 'An authenticated user signs out' do
     sign_in user
-    click_on 'Log out'
+    click_on 'Sign out'
 
     expect(page).to have_content 'Signed out successfully.'
-    expect(page).to_not have_selector(:link_or_button, 'Log out')
+    expect(page).to_not have_selector(:link_or_button, 'Sign out')
     expect(current_path).to eq root_path
   end
 end

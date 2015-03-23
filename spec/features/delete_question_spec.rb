@@ -5,8 +5,8 @@ RSpec.feature 'Delete a question', %q{
   I want to be able to delete my question
 }, type: :feature do
 
-  given(:my_question) { create(:question) }
-  given(:others_question) { create(:question) }
+  given!(:my_question) { create(:question) }
+  given!(:others_question) { create(:question) }
 
   scenario 'A user deletes his question' do
     sign_in(question.user)

@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title Qna
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+  body
+    - if flash.present?
+      .alert-boxes
+        - flash.each do |type, message|
+          p class="alert-#{type}" = message
+
+    - if user_signed_in?
+      = link_to 'Sign out', destroy_user_session_path, method: :delete, :class => 'auth-links'
+    - else
+      = link_to 'Sign in', new_user_session_path, :class => 'auth-links'
+
+    = link_to 'Home', request.base_url, :class => 'home-link'
+
+    = yield

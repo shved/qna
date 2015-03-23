@@ -12,7 +12,7 @@ RSpec.feature 'Create question', %q{
     sign_in(user)
 
     visit questions_path
-    click_on 'Ask question'
+    click_on 'ask it here'
     fill_in 'Title', with: 'Test question title'
     fill_in 'Body', with: 'this is just question body long enough to be valid'
     click_on 'Create'
@@ -26,7 +26,7 @@ RSpec.feature 'Create question', %q{
     click_on 'Log in'
 
     visit questions_path
-    click_on 'Ask question'
+    click_on 'ask it here'
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 end
