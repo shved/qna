@@ -1,11 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question) }
-  let(:answer) { create(:answer, question: question) }
+  let(:user) { create(:user) }
+  let(:question) { create(:question, user: @user) }
+  let(:answer) { create(:answer, question: question, user: @user) }
 
   describe 'GET #new' do
+    sign_in_user
+
     before { get :new, question_id: question}
+
     it 'assigns a new Answer to @answer' do
       expect(assigns(:answer)).to be_a_new Answer
     end
@@ -16,6 +20,8 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
+    sign_in_user
+
     context 'with valid attributes' do
       it 'saves the new answer in the database' do
         expect { post :create, question_id: question.id, answer: attributes_for(:answer) }
@@ -38,6 +44,21 @@ RSpec.describe AnswersController, type: :controller do
         post :create, question_id: question, answer: attributes_for(:invalid_answer)
         expect(response).to render_template :new
       end
+    end
+  end
+
+  describe 'PATCH #destroy' do
+    sign_in_user
+
+    before { answer }
+
+    it 'deletes answer' do
+      expect { delete :destroy, id: answer, question_id: question }.to change(question.answers, :count).by(-1)
+    end
+
+    it 'redirects to question view' do
+      delete :destroy, id: answer, question_id: question
+      expect(response).to redirect_to question_path(question)
     end
   end
 end

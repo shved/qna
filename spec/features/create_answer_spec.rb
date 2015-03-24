@@ -13,7 +13,7 @@ RSpec.feature 'Create answer', %q{
   scenario 'Authenticated user answers the question' do
     sign_in user
     visit question_path(question)
-    click_on 'Submit answer'
+    click_on 'Submit new answer'
     fill_in 'Answer', with: answer.body
     click_on 'Submit'
 

@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root 'questions#index'
 
   resources :questions do
-    resources :answers
+    resources :answers, except: :index
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

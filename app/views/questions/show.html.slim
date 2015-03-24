@@ -1,14 +1,20 @@
 h2= @question.title
 
+- if current_user && (@question.user_id == current_user.id)
+  a= link_to 'Delete question', @question, method: :delete
+
 p= @question.body
+hr
 
 h4 Answers
 .answer
   - @question.answers.each do |answer|
     p= answer.body
+    - if current_user && (current_user == answer.user)
+      p= link_to 'Delete answer', answer, method: :delete
   hr
 
 - if current_user
-  small= link_to 'Submit answer', "/questions/#{@question.id}/answers/new"
+  small= link_to 'Submit new answer', "/questions/#{@question.id}/answers/new"
 - else
   | Sign in or sign up to leave answers

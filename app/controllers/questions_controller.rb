@@ -7,6 +7,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @answer = Answer.new
   end
 
   def new
@@ -17,7 +18,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.create(question_params)
+    @question = Question.create question_params.merge(user: current_user)
 
     if @question.save
       flash[:notice] = 'Your question successfully created.'
@@ -39,8 +40,12 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
-    redirect_to question_path
+    if @question.user == current_user
+      @question.destroy
+      redirect_to questions_path, notice: 'Your question was deleted'
+    else
+      redirect_to @question
+    end
   end
 
   private
