@@ -8,4 +8,4 @@ java_script:
   enabled: false
 
 ruby:
-  ignore_file: .ruby-hound-ignore
+  config_file: .ruby-style.yml
