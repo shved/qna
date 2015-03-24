@@ -6,3 +6,6 @@ coffee_script:
 
 java_script:
   enabled: false
+
+ruby:
+  ignore_file: .ruby-hound-ignore
