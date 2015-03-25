@@ -53,7 +53,8 @@ RSpec.describe AnswersController, type: :controller do
     before { answer }
 
     it 'deletes answer' do
-      expect { delete :destroy, id: answer, question_id: question }.to change(question.answers, :count).by(-1)
+      expect { delete :destroy, id: answer, question_id: question }
+             .to change(Answer, :count).by(-1)
     end
 
     it 'redirects to question view' do

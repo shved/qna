@@ -16,17 +16,17 @@ RSpec.feature 'Create question', %q{
     fill_in 'Title', with: 'Test question title'
     fill_in 'Body', with: 'this is just question body long enough to be valid'
     click_on 'Create'
-    expect(page).to have_content 'Your question successfully created.'
+
+    expect(current_path).to eq question_path(Question.last)
+    expect(page).to have_content 'Test question title'
+    expect(page).to have_content 'this is just question body long enough to be valid'
   end
 
   scenario 'Non-authenticated user tries to create question' do
-    visit new_user_session_path
-    fill_in 'Email', with: 'wrong@mail.com'
-    fill_in 'Password', with: '12345678'
-    click_on 'Log in'
-
     visit questions_path
     click_on 'ask it here'
+
+    expect(current_path).to eq new_user_session_path
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 end
