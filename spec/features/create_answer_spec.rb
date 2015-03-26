@@ -10,19 +10,21 @@ RSpec.feature 'Create answer', %q{
   given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question) }
 
-  scenario 'Authenticated user answers the question' do
+  scenario 'Authenticated user answers the question', js: true do
     sign_in user
     visit question_path(question)
-    click_on 'Submit new answer'
-    fill_in 'Answer', with: answer.body
+    fill_in 'Your answer', with: answer.body
     click_on 'Submit'
 
     expect(current_path).to eq question_path(question)
-    expect(page).to have_content answer.body
+    within '.answers' do
+      expect(page).to have_content answer.body
+    end
   end
 
-  scenario 'Non-authenticated user tries to answer the question' do
+  scenario 'Non-authenticated user tries to answer the question', js: true do
     visit question_path(question)
     expect(page).to_not have_field 'Your answer'
+    expect(page).to_not have_selector(:link_or_button, 'Submit')
   end
 end

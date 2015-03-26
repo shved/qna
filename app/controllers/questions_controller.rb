@@ -20,7 +20,7 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.create question_params.merge(user: current_user)
 
-    if @question.save
+    if @question.errors.empty?
       flash[:notice] = 'Your question successfully created.'
       redirect_to @question
     else

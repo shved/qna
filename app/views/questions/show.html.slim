@@ -7,14 +7,11 @@ p= @question.body
 hr
 
 h4 Answers
-.answer
-  - @question.answers.each do |answer|
-    p= answer.body
-    - if current_user && (current_user == answer.user)
-      p= link_to 'Delete answer', [answer.question, answer], method: :delete
+.answers
+  = render 'answers'
   hr
 
 - if current_user
-  small= link_to 'Submit new answer', "/questions/#{@question.id}/answers/new"
+  = render 'answers/new'
 - else
   | Sign in or sign up to leave answers

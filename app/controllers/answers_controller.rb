@@ -1,21 +1,26 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: :show
+  before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question
-  before_action :load_answer, only: :destroy
+  before_action :load_answer, only: [:destroy, :show]
+
+  def index
+    @answers = @question.answers
+  end
+
+  def show
+  end
 
   def new
     @answer = @question.answers.new
   end
 
   def create
-    @answer = @question.answers.new answer_params.merge(user: current_user)
+    @answer = @question.answers.create answer_params.merge(user: current_user)
 
-    if @answer.save
-      redirect_to question_path(@question)
+    if @answer.errors.empty?
       flash[:notice] = 'Your answer submitted'
     else
-      render :new
-      flash[:warning] = 'Oops! Your answer missed'
+      flash[:warning] = 'Oops! Your answer wont save'
     end
   end
 
