@@ -1,4 +1,4 @@
 - @question.answers.each do |answer|
     p= answer.body
-    - if current_user && (current_user == answer.user)
+    - if user_signed_in? && (current_user == answer.user)
       p= link_to 'Delete answer', [answer.question, answer], method: :delete
