@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'features_helper'
 
 RSpec.feature 'Create answer', %q{
   In order to answer the question
@@ -20,6 +20,14 @@ RSpec.feature 'Create answer', %q{
     within '.answers' do
       expect(page).to have_content answer.body
     end
+  end
+
+  scenario 'User tries to create invalid answer', js: true do
+    sign_in user
+    visit question_path(question)
+    click_on 'Submit'
+
+    expect(page).to have_content "Body is too short"
   end
 
   scenario 'Non-authenticated user tries to answer the question', js: true do

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'features_helper'
 
 RSpec.feature 'Create question', %q{
   In order to get answer from community
@@ -9,7 +9,7 @@ RSpec.feature 'Create question', %q{
   given(:user) { create(:user) }
 
   scenario 'Authenticated user creates question' do
-    sign_in(user)
+    sign_in user
 
     visit questions_path
     click_on 'ask it here'
