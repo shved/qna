@@ -42,3 +42,14 @@ form {
     display: block;
   }
 }
+
+.edit_question {
+  display: none;
+}
+
+.qeustion-errors {
+  .ajax-notice {
+    font-size: 0.8em;
+    color: red;
+  }
+}

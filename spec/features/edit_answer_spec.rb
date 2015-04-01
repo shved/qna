@@ -12,7 +12,7 @@ RSpec.feature 'Edit an answer', %q{
   given!(:other_question) { create(:question) }
   given!(:others_answer) { create(:answer, question: other_question) }
 
-  scenario 'A user edit his question', js: true do
+  scenario 'A user edit his answer', js: true do
     sign_in answer.user
     visit question_path question
 

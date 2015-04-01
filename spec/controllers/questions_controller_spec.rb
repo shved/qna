@@ -45,20 +45,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'GET #edit' do
-    sign_in_user
-
-    before { get :edit, id: question }
-
-    it 'assigns the requested question to @question' do
-      expect(assigns(:question)).to eq question
-    end
-
-    it 'renders edit view' do
-      expect(response).to render_template :edit
-    end
-  end
-
   describe 'POST #create' do
     sign_in_user
 
@@ -92,37 +78,22 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'PATCH #update' do
     sign_in_user
 
-    context 'valid attributes' do
-      it 'assigns the requested question to @question' do
-        patch :update, id: question, question: attributes_for(:question)
-        expect(assigns(:question)).to eq question
-      end
-
-      it 'changes question attributes' do
-        patch :update, id: question, question: { title: '098765432112345', body: '098765432109876543210987654321' }
-        question.reload #ensure that we just took it from db
-        expect(question.title).to eq '098765432112345'
-        expect(question.body).to eq '098765432109876543210987654321'
-      end
-
-      it 'redirects to the updated question' do
-        patch :update, id: question, question: attributes_for(:question)
-        expect(response).to redirect_to question
-      end
+    it 'assigns the requested question to @question' do
+      patch :update, id: question, question: attributes_for(:question), format: :js
+      expect(assigns(:question)).to eq question
     end
 
-    context 'with invalid attributes' do
-      before { patch :update, id: question, question: { title: '09876543211234', body: '09876543210987654321098765432' } }
+    it 'changes question attributes' do
+      patch :update, id: question,
+        question: { title: '098765432112345', body: '098765432109876543210987654321' }, format: :js
+      question.reload #ensure that we just took it from db
+      expect(question.title).to eq '098765432112345'
+      expect(question.body).to eq '098765432109876543210987654321'
+    end
 
-      it 'does not change question attributes' do
-        question.reload #ensure that we just took it from db
-        expect(question.title).to_not eq '09876543211234'
-        expect(question.body).to_not eq '09876543210987654321098765432'
-      end
-
-      it 're-renders edit template' do
-        expect(response).to render_template :edit
-      end
+    it 'renders update template' do
+      patch :update, id: question, question: attributes_for(:question), format: :js
+      expect(response).to render_template :update
     end
   end
 
