@@ -10,7 +10,7 @@ RSpec.feature 'Delete an answer', %q{
   given!(:other_question) { create(:question) }
   given!(:others_answer) { create(:answer, question: other_question) }
 
-  scenario 'A user deletes his question' do
+  scenario 'A user deletes his answer' do
     sign_in(answer.user)
     visit question_path(question)
     click_on 'Delete answer'
@@ -25,12 +25,12 @@ RSpec.feature 'Delete an answer', %q{
     sign_in(answer.user)
     visit question_path(other_question)
 
-    expect(page).to_not have_selector(:link_or_button, 'Delete question')
+    expect(page).to_not have_selector(:link_or_button, 'Delete answer')
   end
 
-  scenario "An unauthenticated user can not delete question" do
+  scenario "An unauthenticated user can not delete answer" do
     visit question_path(question)
 
-    expect(page).to_not have_selector(:link_or_button, 'Delete question')
+    expect(page).to_not have_selector(:link_or_button, 'Delete answer')
   end
 end

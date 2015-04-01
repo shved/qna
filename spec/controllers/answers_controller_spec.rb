@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:user) { create(:user) }
-  let(:question) { create(:question, user: @user) }
-  let(:answer) { create(:answer, question: question, user: @user) }
+  let!(:user) { create(:user) }
+  let!(:question) { create(:question, user: user) }
+  let(:answer) { create(:answer, question: question, user: user) }
 
   describe 'POST #create' do
     sign_in_user
@@ -30,6 +30,29 @@ RSpec.describe AnswersController, type: :controller do
         post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :js
         expect(response).to render_template 'create'
       end
+    end
+  end
+
+  describe 'PATCH #update' do
+    sign_in_user
+
+    it 'assigns the requested answer to @answer' do
+      patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+
+      expect(assigns(:answer)).to eq answer
+    end
+
+    it 'changes answer attributes' do
+      patch :update, id: answer, question_id: question, answer: { body: '098765432109876543210987654321' }, format: :js
+      answer.reload #ensure that we just took it from db
+
+      expect(answer.body).to eq '098765432109876543210987654321'
+    end
+
+    it 'renders update template' do
+      patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+
+      expect(response).to render_template :update
     end
   end
 
