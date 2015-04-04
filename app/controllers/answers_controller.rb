@@ -30,9 +30,10 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy
-    redirect_to @question
-    flash[:notice] = 'Your answer deleted'
+    if @answer.user == current_user
+      @answer.destroy
+      flash[:notice] = 'Your answer deleted'
+    end
   end
 
   private

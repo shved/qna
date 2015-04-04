@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let!(:user) { create(:user) }
-  let!(:question) { create(:question, user: user) }
-  let(:answer) { create(:answer, question: question, user: user) }
+  let!(:question) { create(:question, user: current_user) }
+  let(:answer) { create(:answer, question: question, user: current_user) }
+  let!(:other_answer) { create(:answer, question: question) }
 
   describe 'POST #create' do
     sign_in_user
@@ -59,16 +59,40 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #destroy' do
     sign_in_user
 
-    before { answer }
-
-    it 'deletes answer' do
-      expect { delete :destroy, id: answer, question_id: question }
-             .to change(Answer, :count).by(-1)
+    before do
+      answer
+      other_answer
     end
 
-    it 'redirects to question view' do
-      delete :destroy, id: answer, question_id: question
-      expect(response).to redirect_to question_path(question)
+    context 'own answer' do
+      it 'deletes answer' do
+        expect {
+          delete :destroy, id: answer, question_id: question, format: :js
+        }.to change(Answer, :count).by(-1)
+      end
+
+      it 'redirects to answer question path' do
+        delete :destroy, id: answer, question_id: question, format: :js
+        expect(response).to render_template :destroy
+      end
     end
+
+    context 'other answer' do
+      it 'dont delete answer' do
+        expect {
+          delete :destroy, id: anothers_answer, question_id: question
+        }.to_not change(Answer, :count)
+      end
+    end
+
+    # it 'deletes answer' do
+    #   expect { delete :destroy, id: answer, question_id: question }
+    #          .to change(Answer, :count).by(-1)
+    # end
+
+    # it 'redirects to question view' do
+    #   delete :destroy, id: answer, question_id: question
+    #   expect(response).to redirect_to question_path(question)
+    # end
   end
 end

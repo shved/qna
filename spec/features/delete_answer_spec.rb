@@ -10,7 +10,7 @@ RSpec.feature 'Delete an answer', %q{
   given!(:other_question) { create(:question) }
   given!(:others_answer) { create(:answer, question: other_question) }
 
-  scenario 'A user deletes his answer' do
+  scenario 'A user deletes his answer', js: true do
     sign_in(answer.user)
     visit question_path(question)
     click_on 'Delete answer'

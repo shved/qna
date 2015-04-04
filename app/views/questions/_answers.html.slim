@@ -2,7 +2,7 @@
   - if answer.persisted?
     p= answer.body
     - if current_user == answer.user
-      p= link_to 'Delete answer', [answer.question, answer], method: :delete
+      p= link_to 'Delete answer', [answer.question, answer], remote: true, method: :delete, data: { answer: answer }
       p= link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
       p
         = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{ answer.id }" } do |f|
