@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :index]
+  before_action :authenticate_user!, except: [:show, :index, :vote]
   before_action :load_question
-  before_action :load_answer, only: [:destroy, :show]
+  before_action :load_answer, only: [:destroy, :show, :vote]
 
   def index
     @answers = @question.answers
@@ -35,6 +35,11 @@ class AnswersController < ApplicationController
       flash[:notice] = 'Your answer deleted'
     end
   end
+
+  def vote
+    @answer.vote
+  end
+
 
   private
 

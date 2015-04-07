@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let!(:question) { create(:question, user: current_user) }
-  let(:answer) { create(:answer, question: question, user: current_user) }
+  let!(:user) { create(:user) }
+  let!(:question) { create(:question, user: user) }
+  let!(:answer) { create(:answer, question: question, user: user) }
   let!(:other_answer) { create(:answer, question: question) }
 
   describe 'POST #create' do
@@ -62,17 +63,18 @@ RSpec.describe AnswersController, type: :controller do
     before do
       answer
       other_answer
+      @user.answers << answer
     end
 
     context 'own answer' do
       it 'deletes answer' do
         expect {
-          delete :destroy, id: answer, question_id: question, format: :js
+          delete :destroy, question_id: answer.question, id: answer, format: :js
         }.to change(Answer, :count).by(-1)
       end
 
       it 'redirects to answer question path' do
-        delete :destroy, id: answer, question_id: question, format: :js
+        delete :destroy, question_id: answer.question, id: answer, format: :js
         expect(response).to render_template :destroy
       end
     end
@@ -80,19 +82,32 @@ RSpec.describe AnswersController, type: :controller do
     context 'other answer' do
       it 'dont delete answer' do
         expect {
-          delete :destroy, id: anothers_answer, question_id: question
+          delete :destroy, question_id: question, id: other_answer, format: :js
         }.to_not change(Answer, :count)
       end
     end
+  end
 
-    # it 'deletes answer' do
-    #   expect { delete :destroy, id: answer, question_id: question }
-    #          .to change(Answer, :count).by(-1)
-    # end
+  describe 'PATCH #vote' do
+    before { answer }
 
-    # it 'redirects to question view' do
-    #   delete :destroy, id: answer, question_id: question
-    #   expect(response).to redirect_to question_path(question)
-    # end
+    it 'assigns the requested answer to @answer' do
+      patch :vote, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+
+      expect(assigns(:answer)).to eq answer
+    end
+
+    it "increments the answer's score" do
+      patch :vote, id: answer, question_id: question, answer: { score: 1 }, format: :js
+      answer.reload #ensure that we just took it from db
+
+      expect(answer.score).to eq 1
+    end
+
+    it 'renders update template' do
+      patch :vote, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+
+      expect(response).to render_template :vote
+    end
   end
 end
