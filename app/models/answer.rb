@@ -15,11 +15,13 @@ class Answer < ActiveRecord::Base
   validates_associated :user
 
   def mark_best
-    self.question.answers.update_all(best: false)
-    self.update(best: true)
+    Answer.transaction do
+      Answer.where(question: question_id, best: true).update_all(best: false)
+      update(best: true)
+    end
   end
 
   def vote
-    self.increment!(:score)
+    increment!(:score)
   end
 end

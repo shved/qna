@@ -40,14 +40,13 @@ class AnswersController < ApplicationController
     if @question.user_id == current_user.id
       @answer.mark_best
     else
-      raise "cant mark best"
+      raise 'cant mark best'
     end
   end
 
   def vote
     @answer.vote
   end
-
 
   private
 

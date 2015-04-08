@@ -71,9 +71,8 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'own answer' do
       it 'deletes answer' do
-        expect {
-          delete :destroy, question_id: answer.question, id: answer, format: :js
-        }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, question_id: answer.question, id: answer, format: :js }
+          .to change(Answer, :count).by(-1)
       end
 
       it 'redirects to answer question path' do
@@ -84,9 +83,8 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'other answer' do
       it 'dont delete answer' do
-        expect {
-          delete :destroy, question_id: question, id: other_answer, format: :js
-        }.to_not change(Answer, :count)
+        expect { delete :destroy, question_id: question, id: other_answer, format: :js }
+          .to_not change(Answer, :count)
       end
     end
   end
@@ -117,7 +115,6 @@ RSpec.describe AnswersController, type: :controller do
 
   #==============================
   describe 'PATCH #mark_best' do
-
     before do
       @user = create(:user)
       @request.env['devise.mapping'] = Devise.mappings[:user]

@@ -15,7 +15,7 @@ RSpec.feature 'Mark the best answer', %q{
   scenario 'Author marks an answer as the best', js: true do
     sign_in author
     visit question_path question
-    answer = answers.at(0)
+    answer = answers[0]
 
     within "#answer-#{ answer.id }" do
       click_on "make-best-#{ answer.id }"
@@ -23,6 +23,27 @@ RSpec.feature 'Mark the best answer', %q{
       expect(page).to have_content 'The best answer'
       expect(page).to_not have_content 'Make best'
     end
+  end
+
+  scenario 'Author changes the best answer', js: true do
+    sign_in author
+    best_answer = answers[0]
+    best_answer.best = true
+    best_answer.save
+    new_best_answer = answers[2]
+    visit question_path question
+
+    expect(page.find('.answers').first('div')).to have_selector("#answer-#{ best_answer.id }")
+
+    within "#answer-#{ new_best_answer.id }" do
+      click_on 'Make best'
+    end
+
+    within '.answers' do
+      expect(page.first('div')).to have_selector("#answer-#{ new_best_answer.id }")
+    end
+
+    expect(page.find('#answer-#{ best_answer.id }')).to_not have_content 'The best answer!'
   end
 
   scenario 'Guest cant mark answer as best', js: true do

@@ -84,8 +84,10 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     it 'changes question attributes' do
-      patch :update, id: question,
-        question: { title: '098765432112345', body: '098765432109876543210987654321' }, format: :js
+      patch :update,
+        id: question,
+        question: { title: '098765432112345', body: '098765432109876543210987654321' },
+        format: :js
       question.reload #ensure that we just took it from db
       expect(question.title).to eq '098765432112345'
       expect(question.body).to eq '098765432109876543210987654321'
