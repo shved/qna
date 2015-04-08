@@ -117,11 +117,12 @@ RSpec.describe AnswersController, type: :controller do
   #==============================
   describe 'PATCH #mark_best' do
 
-    sign_in_user
-
     before do
+      @user = create(:user)
+      @request.env['devise.mapping'] = Devise.mappings[:user]
+      sign_in @user
       question
-      question.user = user
+      question.user_id = @user.id
       answer
     end
 

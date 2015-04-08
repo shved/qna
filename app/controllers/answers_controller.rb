@@ -40,7 +40,7 @@ class AnswersController < ApplicationController
     if @question.user_id == current_user.id
       @answer.mark_best
     else
-      raise "cant mark best: #{ @question.user_id }, #{ current_user.id }"
+      raise "cant mark best: question owner id is #{ @question.user_id }, current user id is #{ current_user.id }"
     end
   end
 
