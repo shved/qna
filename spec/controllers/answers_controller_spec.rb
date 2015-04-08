@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
-  let(:question) { create(:question, user: user) }
+  let!(:question) { create(:question, user: user) }
   let!(:answer) { create(:answer, question: question, user: user) }
   let!(:other_answer) { create(:answer, question: question) }
 
@@ -45,7 +45,8 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     it 'changes answer attributes' do
-      patch :update, id: answer, question_id: question, answer: { body: '098765432109876543210987654321' }, format: :js
+      patch :update, id: answer, question_id: question,
+        answer: { body: '098765432109876543210987654321' }, format: :js
       answer.reload #ensure that we just took it from db
 
       expect(answer.body).to eq '098765432109876543210987654321'
@@ -123,6 +124,7 @@ RSpec.describe AnswersController, type: :controller do
       sign_in @user
       question
       question.user_id = @user.id
+      question.save
       answer
     end
 
