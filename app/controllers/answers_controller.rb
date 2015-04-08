@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index, :vote]
   before_action :load_question
-  before_action :load_answer, only: [:destroy, :show, :vote]
+  before_action :load_answer, only: [:destroy, :show, :vote, :mark_best]
 
   def index
     @answers = @question.answers
@@ -33,6 +33,14 @@ class AnswersController < ApplicationController
     if @answer.user == current_user
       @answer.destroy
       flash[:notice] = 'Your answer deleted'
+    end
+  end
+
+  def mark_best
+    if @question.user_id == current_user.id
+      @answer.mark_best
+    else
+      raise "cant mark best: #{ @question.user_id }, #{ current_user.id }"
     end
   end
 

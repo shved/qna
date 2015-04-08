@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let!(:user) { create(:user) }
-  let!(:question) { create(:question, user: user) }
+  let(:user) { create(:user) }
+  let(:question) { create(:question, user: user) }
   let!(:answer) { create(:answer, question: question, user: user) }
   let!(:other_answer) { create(:answer, question: question) }
 
@@ -34,6 +34,7 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  #==============================
   describe 'PATCH #update' do
     sign_in_user
 
@@ -57,6 +58,7 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  #==============================
   describe 'PATCH #destroy' do
     sign_in_user
 
@@ -88,6 +90,7 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  #==============================
   describe 'PATCH #vote' do
     before { answer }
 
@@ -108,6 +111,37 @@ RSpec.describe AnswersController, type: :controller do
       patch :vote, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
 
       expect(response).to render_template :vote
+    end
+  end
+
+  #==============================
+  describe 'PATCH #mark_best' do
+
+    sign_in_user
+
+    before do
+      question
+      question.user = user
+      answer
+    end
+
+    it 'assigns the requested answer to @answer' do
+      patch :mark_best, id: answer, question_id: question, format: :js
+
+      expect(assigns(:answer)).to eq answer
+    end
+
+    it "changes answers best property" do
+      patch :mark_best, id: answer, question_id: question, format: :js
+      answer.reload #ensure that we just took it from db
+
+      expect(answer.best).to be true
+    end
+
+    it 'renders update template' do
+      patch :mark_best, id: answer, question_id: question, format: :js
+
+      expect(response).to render_template :mark_best
     end
   end
 end

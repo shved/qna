@@ -1,5 +1,5 @@
 class Answer < ActiveRecord::Base
-  default_scope { order(score: :desc, created_at: :asc) }
+  default_scope { order(best: :desc, score: :desc, created_at: :asc) }
 
   belongs_to :question
   belongs_to :user
@@ -9,12 +9,17 @@ class Answer < ActiveRecord::Base
   validates :question_id, presence: true
   validates :user_id, presence: true
   validates :score, numericality: { only_integer: true }
+  validates :best, inclusion: { in: [true, false] }
 
   validates_associated :question
   validates_associated :user
 
+  def mark_best
+    self.question.answers.update_all(best: false)
+    self.update(best: true)
+  end
+
   def vote
-    new_score = self.score + 1
-    self.update(score: new_score)
+    self.increment!(:score)
   end
 end

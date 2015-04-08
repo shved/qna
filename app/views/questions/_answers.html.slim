@@ -1,14 +1,23 @@
 - @question.answers.each do |answer|
   - if answer.persisted?
-    p= answer.body
-    p= link_to '+', vote_question_answer_path(@question, answer), method: :patch, remote: true
-    p= "Score: #{ answer.score }"
-    - if current_user == answer.user
-      p= link_to 'Delete answer', [answer.question, answer], remote: true, method: :delete, data: { answer: answer }
-      p= link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-      p
-        = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{ answer.id }" } do |f|
-          = f.label :body, 'Answer'
-          .answer-errors
-          = f.text_area :body
-          = f.submit 'Save'
+    .answer id="answer-#{ answer.id }"
+      p= answer.body
+      - if answer.best
+        p= 'The best answer!'
+      - else
+        - if current_user == @question.user
+          p= link_to 'Make best', mark_best_question_answer_path(@question, answer),
+            id: "make-best-#{ answer.id }", method: :patch, remote: true
+      p= link_to '+', vote_question_answer_path(@question, answer), method: :patch, remote: true
+      p= "Score: #{ answer.score }"
+      - if current_user == answer.user
+        p= link_to 'Delete answer', [answer.question, answer],
+            remote: true, method: :delete, data: { answer: answer }
+        p= link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+        p
+          = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{ answer.id }" } do |f|
+            = f.label :body, 'Answer'
+            .answer-errors
+            = f.text_area :body
+            = f.submit 'Save'
+  hr
