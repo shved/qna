@@ -33,17 +33,16 @@ RSpec.feature 'Mark the best answer', %q{
     new_best_answer = answers[2]
     visit question_path question
 
-    expect(page.find('.answers').first('div')).to have_selector("#answer-#{ best_answer.id }")
+    expect( page.first('.answer')[:id] ).to eq "answer-#{ best_answer.id }"
 
     within "#answer-#{ new_best_answer.id }" do
       click_on 'Make best'
     end
 
-    within '.answers' do
-      expect(page.first('div')).to have_selector("#answer-#{ new_best_answer.id }")
-    end
-
-    expect(page.find('#answer-#{ best_answer.id }')).to_not have_content 'The best answer!'
+    sleep(1)
+    
+    expect( page.first('.answer')[:id] ).to eq "answer-#{ new_best_answer.id }"
+    expect(page.find("#answer-#{ best_answer.id }")).to_not have_content 'The best answer!'
   end
 
   scenario 'Guest cant mark answer as best', js: true do
