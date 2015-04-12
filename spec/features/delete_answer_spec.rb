@@ -4,7 +4,6 @@ RSpec.feature 'Delete an answer', %q{
   As an author of answer
   I want to be able to delete my answer
 }, type: :feature do
-
   given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question) }
   given!(:other_question) { create(:question) }

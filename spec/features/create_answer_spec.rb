@@ -5,7 +5,6 @@ RSpec.feature 'Create answer', %q{
   As an authenticated user
   I want to be able to create an answer
 }, type: :feature do
-
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question) }

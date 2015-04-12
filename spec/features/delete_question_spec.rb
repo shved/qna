@@ -4,7 +4,6 @@ RSpec.feature 'Delete a question', %q{
   As an author of question
   I want to be able to delete my question
 }, type: :feature do
-
   given!(:user) { create(:user) }
   given(:my_question) { create(:question, user: user) }
   given(:others_question) { create(:question, title: 'asdfkjsdlkfjsldkfjsldkfjsdlkfjsdlkfj') }

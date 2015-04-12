@@ -5,7 +5,6 @@ RSpec.feature 'User registration', %q{
   As a non-registered user
   I want to create new account
 }, type: :feature do
-
   given(:user) { build(:user) }
 
   scenario 'Non-registered user creates new account' do

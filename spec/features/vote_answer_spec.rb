@@ -5,7 +5,6 @@ RSpec.feature 'Rate an answer', %q{
   As a guest
   I want to be able to vote for my favorite answer
 }, type: :feature do
-
   given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question) }
 

@@ -5,7 +5,6 @@ RSpec.feature 'Edit a question', %q{
   As an author of question
   I want to be able to edit my question
 }, type: :feature do
-
   given!(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given!(:other_question) { create(:question) }

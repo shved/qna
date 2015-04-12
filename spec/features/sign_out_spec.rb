@@ -4,7 +4,6 @@ RSpec.feature '', %q{
   As an authenticated user
   I want to to sign out
 }, type: :feature do
-
   given(:user) { create(:user) }
 
   scenario 'An authenticated user signs out' do

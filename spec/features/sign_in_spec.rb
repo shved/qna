@@ -5,7 +5,6 @@ RSpec.feature 'User sign in', %q{
   As a non-authenticated user
   I want to sign in
 }, type: :feature do
-
   given(:user) { create(:user) }
 
   scenario 'Registered user try to sign in' do

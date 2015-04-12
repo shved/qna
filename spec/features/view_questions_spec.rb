@@ -5,7 +5,6 @@ RSpec.feature 'View questions', %q{
   As a user
   I want to be able to view questions list and separate questions
 }, type: :feature do
-
   given!(:questions) { create_list(:question, 2) }
   given!(:answer) { questions.each { |q| create(:answer, question: q) } }
 
