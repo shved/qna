@@ -28,7 +28,7 @@ RSpec.feature 'Delete an answer', %q{
     expect(page).to_not have_selector(:link_or_button, 'Delete answer')
   end
 
-  scenario "An unauthenticated user can not delete answer" do
+  scenario 'An unauthenticated user can not delete answer' do
     visit question_path(question)
 
     expect(page).to_not have_selector(:link_or_button, 'Delete answer')

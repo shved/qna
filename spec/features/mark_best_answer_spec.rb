@@ -5,10 +5,8 @@ RSpec.feature 'Mark the best answer', %q{
   As the question author
   I want to be able to mark an answer as the best one
 }, type: :feature do
-
   given(:author) { create(:user) }
   given(:guest) { create(:user) }
-
   given!(:question) { create(:question, user: author) }
   given!(:answers) { create_list(:answer, 3, question: question, user: guest) }
 
@@ -38,9 +36,9 @@ RSpec.feature 'Mark the best answer', %q{
     within "#answer-#{ new_best_answer.id }" do
       click_on 'Make best'
     end
-    
+
     expect(page).to have_content('Successfully accepted answer')
-    expect( page.first('.answer')[:id] ).to eq "answer-#{ new_best_answer.id }"
+    expect(page.first('.answer')[:id]).to eq "answer-#{ new_best_answer.id }"
     expect(page.find("#answer-#{ best_answer.id }")).to_not have_content 'The best answer!'
   end
 

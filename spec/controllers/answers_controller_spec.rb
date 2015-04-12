@@ -50,7 +50,7 @@ RSpec.describe AnswersController, type: :controller do
             question_id: question,
             answer: { body: '098765432109876543210987654321' },
             format: :js
-      answer.reload #ensure that we just took it from db
+      answer.reload # ensure that we just took it from db
 
       expect(answer.body).to eq '098765432109876543210987654321'
     end

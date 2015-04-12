@@ -921,7 +921,7 @@ Style/UnneededCapitalW:
 Style/UnneededPercentQ:
   Description: Checks for %q/%Q when single quotes or double quotes would do.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#percent-q
-  Enabled: true
+  Enabled: false
 Style/UnneededPercentX:
   Description: Checks for %x when `` would do.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#percent-x
