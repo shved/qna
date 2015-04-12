@@ -4,7 +4,7 @@ RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question)  }
 
-  describe 'GET #index' do
+  describe 'GET # index' do
     let(:questions) { create_list(:question, 2) }
     before do
       get :index
@@ -19,7 +19,8 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'GET #show' do
+  #==============================
+  describe 'GET # show' do
     before { get :show, id: question }
 
     it 'assigns the requested question to @question' do
@@ -31,7 +32,8 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'GET #new' do
+  #==============================
+  describe 'GET # new' do
     sign_in_user
 
     before { get :new, id: question }
@@ -45,20 +47,21 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'POST #create' do
+  #==============================
+  describe 'POST # create' do
     sign_in_user
 
     context 'with valid attributes' do
       it 'saves the new question in the database' do
-        #old_count: Question.count
-        #post: create, question: attributes_for(:question)
-        #expect(Question.count).to eq old_count + 1
+        # old_count: Question.count
+        # post: create, question: attributes_for(:question)
+        # expect(Question.count).to eq old_count + 1
         expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
       end
 
       it 'redirects to show view' do
         post :create, question: attributes_for(:question)
-        #expect(response).to redirect_to question_path(Question.last)
+        # expect(response).to redirect_to question_path(Question.last)
         expect(response).to redirect_to question_path(assigns(:question))
       end
     end
@@ -75,7 +78,8 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'PATCH #update' do
+  #==============================
+  describe 'PATCH # update' do
     sign_in_user
 
     it 'assigns the requested question to @question' do
@@ -85,10 +89,10 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'changes question attributes' do
       patch :update,
-        id: question,
-        question: { title: '098765432112345', body: '098765432109876543210987654321' },
-        format: :js
-      question.reload #ensure that we just took it from db
+            id: question,
+            question: { title: '098765432112345', body: '098765432109876543210987654321' },
+            format: :js
+      question.reload # ensure that we just took it from db
       expect(question.title).to eq '098765432112345'
       expect(question.body).to eq '098765432109876543210987654321'
     end
@@ -99,7 +103,8 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'PATCH #destroy' do
+  #==============================
+  describe 'PATCH # destroy' do
     let(:create_auth_question) { create(:question, user: @user) }
 
     before do

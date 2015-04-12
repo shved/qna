@@ -27,7 +27,7 @@ RSpec.feature 'Create answer', %q{
     visit question_path(question)
     click_on 'Submit'
 
-    expect(page).to have_content "Body is too short"
+    expect(page).to have_content 'Body is too short'
   end
 
   scenario 'Non-authenticated user tries to answer the question', js: true do

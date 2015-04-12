@@ -39,6 +39,7 @@ class AnswersController < ApplicationController
   def mark_best
     if @question.user_id == current_user.id
       @answer.mark_best
+      flash[:notice] = 'Successfully accepted answer'
     else
       raise 'cant mark best'
     end

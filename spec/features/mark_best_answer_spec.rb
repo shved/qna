@@ -38,9 +38,8 @@ RSpec.feature 'Mark the best answer', %q{
     within "#answer-#{ new_best_answer.id }" do
       click_on 'Make best'
     end
-
-    sleep(1)
     
+    expect(page).to have_content('Successfully accepted answer')
     expect( page.first('.answer')[:id] ).to eq "answer-#{ new_best_answer.id }"
     expect(page.find("#answer-#{ best_answer.id }")).to_not have_content 'The best answer!'
   end

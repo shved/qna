@@ -6,7 +6,7 @@ RSpec.describe AnswersController, type: :controller do
   let!(:answer) { create(:answer, question: question, user: user) }
   let!(:other_answer) { create(:answer, question: question) }
 
-  describe 'POST #create' do
+  describe 'POST # create' do
     sign_in_user
 
     context 'with valid attributes' do
@@ -35,7 +35,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   #==============================
-  describe 'PATCH #update' do
+  describe 'PATCH # update' do
     sign_in_user
 
     it 'assigns the requested answer to @answer' do
@@ -45,8 +45,11 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     it 'changes answer attributes' do
-      patch :update, id: answer, question_id: question,
-        answer: { body: '098765432109876543210987654321' }, format: :js
+      patch :update,
+            id: answer,
+            question_id: question,
+            answer: { body: '098765432109876543210987654321' },
+            format: :js
       answer.reload #ensure that we just took it from db
 
       expect(answer.body).to eq '098765432109876543210987654321'
@@ -60,7 +63,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   #==============================
-  describe 'PATCH #destroy' do
+  describe 'PATCH # destroy' do
     sign_in_user
 
     before do
@@ -90,7 +93,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   #==============================
-  describe 'PATCH #vote' do
+  describe 'PATCH # vote' do
     before { answer }
 
     it 'assigns the requested answer to @answer' do
@@ -101,7 +104,7 @@ RSpec.describe AnswersController, type: :controller do
 
     it "increments the answer's score" do
       patch :vote, id: answer, question_id: question, answer: { score: 1 }, format: :js
-      answer.reload #ensure that we just took it from db
+      answer.reload # ensure that we just took it from db
 
       expect(answer.score).to eq 1
     end
@@ -114,7 +117,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   #==============================
-  describe 'PATCH #mark_best' do
+  describe 'PATCH # mark_best' do
     before do
       @user = create(:user)
       @request.env['devise.mapping'] = Devise.mappings[:user]
@@ -131,9 +134,9 @@ RSpec.describe AnswersController, type: :controller do
       expect(assigns(:answer)).to eq answer
     end
 
-    it "changes answers best property" do
+    it 'changes answers best property' do
       patch :mark_best, id: answer, question_id: question, format: :js
-      answer.reload #ensure that we just took it from db
+      answer.reload # ensure that we just took it from db
 
       expect(answer.best).to be true
     end

@@ -1,8 +1,10 @@
 <% if @answer.errors.present? %>
   <% @answer.errors.full_messages.each do |message| %>
     $('.answer-errors').html("<p class='ajax-notice'><%= j message %></p>");
+    $('.alert-warning').html('<%= flash[:warning] %>');
   <% end %>
 <% else %>
   $('.answers').html('<%= j render 'questions/answers' %>');
+  $('.alert-notice').html('<%= flash[:notice] %>');
   $('#answer_body').val('');
 <% end %>
