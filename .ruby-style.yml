@@ -60,7 +60,7 @@ Style/AndOr:
 Style/BarePercentLiterals:
   Description: Checks if usage of %() or %Q() matches configuration.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#percent-q-shorthand
-  Enabled: true
+  Enabled: false
   EnforcedStyle: bare_percent
   SupportedStyles:
   - percent_q
@@ -296,7 +296,7 @@ Style/PercentLiteralDelimiters:
     "%x": "()"
 Style/PercentQLiterals:
   Description: Checks if uses of %Q/%q match the configured preference.
-  Enabled: true
+  Enabled: false
   EnforcedStyle: lower_case_q
   SupportedStyles:
   - lower_case_q
