@@ -8,4 +8,6 @@ class Question < ActiveRecord::Base
   validates :user_id, presence: true
 
   validates_associated :user
+
+  accepts_nested_attributes_for :attachments
 end
