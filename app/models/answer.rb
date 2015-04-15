@@ -3,6 +3,7 @@ class Answer < ActiveRecord::Base
 
   belongs_to :question
   belongs_to :user
+  has_many :attachments, as: :attachable
 
   validates :body, presence: true,
                    length: { in: 30..1000 }
@@ -13,6 +14,8 @@ class Answer < ActiveRecord::Base
 
   validates_associated :question
   validates_associated :user
+
+  accepts_nested_attributes_for :attachments
 
   def mark_best
     Answer.transaction do

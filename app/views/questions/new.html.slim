@@ -9,7 +9,6 @@ h1 Describe your issue here
   p Attachments:
   = f.fields_for :attachments do |a|
     = a.label :file
-    = a.file_lield :file
-  end
+    = a.file_field :file
   br
   = f.submit 'Create'
