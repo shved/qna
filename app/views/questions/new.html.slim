@@ -1,6 +1,6 @@
 h1 Describe your issue here
 
-= form_for @question do |f|
+= nested_form_for @question do |f|
   = f.label :title
   = f.text_field :title, autofocus: true
   br
@@ -8,7 +8,13 @@ h1 Describe your issue here
   = f.text_area :body
   p Attachments:
   = f.fields_for :attachments do |a|
-    = a.label :file
-    = a.file_field :file
+    - attachment = a.object
+    - if attachment.new_record?
+      = a.label :file
+      = a.file_field :file
+      = a.link_to_remove 'Remove file'
+    - else
+      = attachment.file.identifier
   br
+  = f.link_to_add '+', :attachments
   = f.submit 'Create'

@@ -15,7 +15,7 @@ class Answer < ActiveRecord::Base
   validates_associated :question
   validates_associated :user
 
-  accepts_nested_attributes_for :attachments
+  accepts_nested_attributes_for :attachments, allow_destroy: true
 
   def mark_best
     Answer.transaction do

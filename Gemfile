@@ -16,6 +16,7 @@ gem 'devise'
 gem 'autoprefixer-rails'
 gem 'carrierwave'
 gem 'remotipart'
+gem 'nested_form'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

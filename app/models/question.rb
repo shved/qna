@@ -9,5 +9,5 @@ class Question < ActiveRecord::Base
 
   validates_associated :user
 
-  accepts_nested_attributes_for :attachments
+  accepts_nested_attributes_for :attachments, allow_destroy: true
 end

@@ -1,9 +1,14 @@
-= form_for [@question, @answer], remote: true do |f|
-  p
-    = f.label :body, 'Your answer'
-    .answer-errors
-    = f.text_area :body
-    = f.fields_for :attachments do |a|
+= nested_form_for [@question, @answer], remote: true do |f|
+  = f.label :body, 'Your answer'
+  .answer-errors
+  = f.text_area :body
+  = f.fields_for :attachments do |a|
+    - attachment = a.object
+    - if attachment.new_record?
       = a.label :file
       = a.file_field :file
+      = a.link_to_remove 'Remove file'
+    - else
+      = attachment.file.identifier
+  = f.link_to_add '+', :attachments
   p= f.submit 'Submit'
