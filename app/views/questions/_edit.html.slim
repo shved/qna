@@ -6,4 +6,11 @@
   = f.label :body
   = f.text_area :body
   br
+  - if @question.attachments.any?
+    p Attachments:
+    ul
+      - @question.attachments.each do |a|
+        li= link_to a.file.filename, a.file.url, id: "file-#{ a.id }"
+        - if current_user.id == @question.user_id
+          = link_to 'Delete file', a, method: :delete, id: "delete-file-#{ a.id }", remote: true
   = f.submit 'Save'

@@ -12,7 +12,7 @@
     p Attachments:
     ul
       - @question.attachments.each do |a|
-        li= link_to a.file.filename, a.file.url
+        li= link_to a.file.filename, a.file.url, id: "file-#{ a.id }"
   hr
 
 h4 Answers

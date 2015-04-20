@@ -35,6 +35,7 @@ group :development, :test do
   gem 'launchy'
   gem 'database_cleaner'
   gem 'capybara-webkit'
+  gem 'binding_of_caller'
 end
 
 group :test do
