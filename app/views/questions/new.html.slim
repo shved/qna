@@ -14,7 +14,7 @@ h1 Describe your issue here
       = a.file_field :file
       = a.link_to_remove 'Remove file'
     - else
-      = attachment.file.identifier
+      = attachment.file.filename
   br
   = f.link_to_add '+', :attachments
   = f.submit 'Create'
