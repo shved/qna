@@ -1,2 +1,3 @@
-$('.alert-notice').html('File removed')
-$("#file-#{ a.id }").remove()
+$('.alert-notice').html('File removed');
+$('#file-<%= @attachment.id %>').remove();
+$('#delete-file-<%= @attachment.id %>').remove();

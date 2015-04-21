@@ -1,5 +1,5 @@
 = nested_form_for [@question, @answer], remote: true do |f|
-  = f.label :body, 'Your answer'
+  = f.label :body, 'Answer'
   .answer-errors
   = f.text_area :body
   = f.fields_for :attachments do |a|
@@ -9,6 +9,8 @@
       = a.file_field :file
       = a.link_to_remove 'Remove file'
     - else
-      = attachment.file.filename
-  = f.link_to_add '+', :attachments
+     = link_to attachment.file.filename, attachment.file.url, id: "file-#{ attachment.id }"
+     - if current_user.id == answer.user_id
+          = link_to 'Delete file', a, method: :delete, id: "delete-file-#{ a.id }", remote: true
+  = f.link_to_add 'Add one more file', :attachments
   p= f.submit 'Submit'
