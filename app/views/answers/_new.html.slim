@@ -11,6 +11,6 @@
     - else
      = link_to attachment.file.filename, attachment.file.url, id: "file-#{ attachment.id }"
      - if current_user.id == answer.user_id
-          = link_to 'Delete file', a, method: :delete, id: "delete-file-#{ a.id }", remote: true
+        = link_to 'Delete file', a, method: :delete, id: "delete-file-#{ a.id }", remote: true
   = f.link_to_add 'Add one more file', :attachments
   p= f.submit 'Submit'

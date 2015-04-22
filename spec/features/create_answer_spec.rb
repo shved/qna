@@ -12,7 +12,7 @@ RSpec.feature 'Create answer', %q{
   scenario 'Authenticated user answers the question', js: true do
     sign_in user
     visit question_path(question)
-    fill_in 'Your answer', with: answer.body
+    fill_in 'Answer', with: answer.body
     click_on 'Submit'
 
     expect(current_path).to eq question_path(question)

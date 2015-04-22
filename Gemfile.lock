@@ -93,7 +93,6 @@ GEM
     globalid (0.3.3)
       activesupport (>= 4.1.0)
     hike (1.2.3)
-    hirb (0.7.3)
     i18n (0.7.0)
     jbuilder (2.2.11)
       activesupport (>= 3.0.0, < 5)
@@ -128,6 +127,8 @@ GEM
       slop (~> 3.4)
     pry-rails (0.3.3)
       pry (>= 0.9.10)
+    quiet_assets (1.1.0)
+      railties (>= 3.1, < 5.0)
     rack (1.6.0)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -233,7 +234,6 @@ DEPENDENCIES
   devise
   factory_girl_rails
   faker
-  hirb
   jbuilder (~> 2.0)
   jquery-rails
   jquery-turbolinks
@@ -241,6 +241,7 @@ DEPENDENCIES
   nested_form
   pg
   pry-rails
+  quiet_assets
   rails (= 4.2.0)
   remotipart
   rspec-rails
