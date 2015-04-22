@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe AttachmentsController, type: :controller do
-
   let(:non_author) { create(:user) }
   let(:question) { create(:question) }
   let!(:files) { create_list(:attachment, 2, attachable: question) }
