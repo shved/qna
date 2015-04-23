@@ -13,14 +13,18 @@ feature 'Add files to answer', %q{
     visit question_path(question)
   end
 
-  scenario 'User adds file when gives answer', js: true do
+  scenario 'User adds few files when gives answer', js: true do
     fill_in 'Answer', with: 'Test answer text body answer text body'
     click_on 'Add one more file'
-    attach_file 'File', "#{ Rails.root }/spec/spec_helper.rb"
+    click_on 'Add one more file'
+    inputs = all("input[type='file']")
+    inputs[0].set("#{ Rails.root }/spec/spec_helper.rb")
+    inputs[1].set("#{ Rails.root }/config.ru")
     click_on 'Submit'
 
     within '.answers' do
       expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
+      expect(page).to have_link 'config.ru', href: '/uploads/attachment/file/2/config.ru'
     end
   end
 end

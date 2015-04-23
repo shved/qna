@@ -7,6 +7,12 @@ FactoryGirl.define do
     best false
     question
     user
+
+    trait :with_files do
+      after(:create) do |answer|
+        create_list(:attachment, 2, attachable: answer)
+      end
+    end
   end
 
   factory :invalid_answer, class: 'Answer' do

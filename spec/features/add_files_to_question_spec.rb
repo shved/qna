@@ -16,9 +16,13 @@ feature 'Add files to question', %q{
     fill_in 'Title', with: 'Test question title'
     fill_in 'Body', with: 'this is just question body long enough to be valid'
     click_on 'Add one more file'
-    attach_file 'File', "#{ Rails.root }/spec/spec_helper.rb"
+    click_on 'Add one more file'
+    inputs = all("input[type='file']")
+    inputs[0].set("#{ Rails.root }/spec/spec_helper.rb")
+    inputs[1].set("#{ Rails.root }/config.ru")
     click_on 'Create'
 
     expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
+    expect(page).to have_link 'config.ru', href: '/uploads/attachment/file/2/config.ru'
   end
 end
