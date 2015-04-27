@@ -15,7 +15,17 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.create answer_params.merge(user: current_user)
+    @answer = @question.answers.build answer_params.merge(user: current_user)
+
+    respond_to do |format|
+      if @answer.save
+        format.html { render partial: 'questions/answers', layout: false }
+        format.json { render json: @answer }
+      else
+        format.html { render text: @answer.errors.full_messages.join(', '), status: :unprocessable_entity }
+        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+      end
+    end
 
     if @answer.errors.empty?
       flash[:notice] = 'Your answer submitted'
