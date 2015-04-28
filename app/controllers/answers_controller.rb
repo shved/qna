@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index, :vote]
   before_action :load_question
-  before_action :load_answer, only: [:destroy, :show, :vote, :mark_best]
+  before_action :load_answer, only: [:destroy, :show, :vote, :mark_best, :update]
 
   def index
     @answers = @question.answers
@@ -28,15 +28,22 @@ class AnswersController < ApplicationController
     end
 
     if @answer.errors.empty?
-      flash[:notice] = 'Your answer submitted'
+      flash.now[:notice] = 'Your answer submitted'
     else
-      flash[:warning] = 'Oops! Your answer wont save'
+      flash.now[:warning] = 'Oops! Your answer wont save'
     end
   end
 
   def update
-    @answer = Answer.find(params[:id])
     @answer.update(answer_params)
+
+    respond_to do |format|
+      if @answer.errors.empty?
+        format.json { render json: @anser }
+      else
+        format.json {render json: @answer.errors.full_messages, status: :unprocessable_entity }
+      end
+    end
   end
 
   def destroy
