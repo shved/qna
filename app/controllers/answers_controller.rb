@@ -47,18 +47,16 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if @answer.user == current_user
+    if owns_answer?
       @answer.destroy
       flash[:notice] = 'Your answer deleted'
     end
   end
 
   def mark_best
-    if @question.user_id == current_user.id
+    if owns_question?
       @answer.mark_best
       flash[:notice] = 'Successfully accepted answer'
-    else
-      raise 'cant mark best'
     end
   end
 
@@ -67,6 +65,13 @@ class AnswersController < ApplicationController
   end
 
   private
+  def owns_answer?
+    return true if @answer.user == current_user
+  end
+
+  def owns_question?
+    return true if @question.user == current_user
+  end
 
   def load_question
     @question = Question.find params[:question_id]

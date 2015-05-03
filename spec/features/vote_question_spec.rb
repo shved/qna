@@ -1,33 +1,31 @@
 require_relative 'features_helper'
 
-RSpec.feature 'Rate an answer', %q{
-  To promote an answer
-  As an authenticaded user
+RSpec.feature 'User can vote', %q{
+  To like a question
+  As a registered user
   I'd like to vote for it
 }, type: :feature, js: true do
 
-  given (:question_author) { create(:user) }
-  given (:answer_author) { create(:user) }
-  given (:question) { create(:question, user: question_author) }
-  given! (:answer) { create(:answer, question: question, user: answer_author) }
-  given! (:second_answer) { create(:answer, question: question, user: question_author) }
+  given! (:user1) { create(:user) }
+  given! (:user2) { create(:user) }
+  given! (:question) { create(:question, user: user1) }
+  given! (:second_question) { create(:question, user: user2) }
 
   background do
-    sign_in(question_author)
+    sign_in(user2)
     visit question_path(question)
   end
 
-  scenario 'User can vote for answer' do
-    within "#answer_#{ answer.id }" do
-      expect(page).to have_text answer.body
+  scenario 'User can vote for question' do
+    within "#question_#{ question.id }" do
       expect(page).to have_text 'Like'
       expect(page).to have_text 'Dislike'
       expect(page).to have_text 'Rating is: 0'
     end
   end
 
-  scenario 'User can vote for answer only once' do
-    within "#answer_#{ answer.id }" do
+  scenario 'User can vote for question only once' do
+    within "#question_#{ question.id }" do
       click_link 'Like'
       expect(page).to have_text 'Rating is: 1'
       expect(page).to_not have_text 'Like'
@@ -36,7 +34,7 @@ RSpec.feature 'Rate an answer', %q{
   end
 
   scenario 'User can cancel his vote and re-vote' do
-    within "#answer_#{ answer.id }" do
+    within "#question_#{ question.id }" do
       click_link 'Like'
       expect(page).to have_text 'Rating is: 1'
       click_link 'Withdraw'
@@ -46,8 +44,10 @@ RSpec.feature 'Rate an answer', %q{
     end
   end
 
-  scenario 'User can not vote for his answer' do
-    within "#answer_#{ second_answer.id }" do
+  scenario 'User can not vote for his question' do
+    visit question_path(second_question)
+    within "#question_#{ second_question.id }" do
+
       expect(page).to_not have_text 'Like'
       expect(page).to_not have_text 'Dislike'
     end

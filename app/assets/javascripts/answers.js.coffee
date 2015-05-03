@@ -21,8 +21,10 @@ $(document).ready ->
 
   $('form.edit_answer').bind 'ajax:success', (e, data, status, xhr) ->
     answer = $.parseJSON(xhr.responseText)
-    $(this).closest('p.answer_body').html(answer.body)
-    $(this).hide()
+    id = $(this).closest('.answer').attr('id')
+    $(this).closest('.edit_answer').hide()
+    $(this).closest('p.answer_body').text(answer)
+    console.log(xhr.responseText)
   .bind 'ajax:error', (e, xhr, status, error) ->
     errors = $.parseJSON(xhr.responseText)
     $.each errors, (index, value) ->
