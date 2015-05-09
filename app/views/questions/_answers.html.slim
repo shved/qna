@@ -9,8 +9,8 @@
         - if current_user == @question.user
           p= link_to 'Make best', mark_best_question_answer_path(@question, answer),
             id: "make-best-#{ answer.id }", method: :patch, remote: true
-      p= link_to '+', vote_question_answer_path(@question, answer), method: :patch, remote: true
-      p= "Score: #{ answer.score }"
+      - if user_signed_in?
+        = render partial: 'votes/vote', locals: { votable: answer }
       - if current_user == answer.user
         p= link_to 'Delete answer', [answer.question, answer],
             remote: true, method: :delete, data: { answer: answer }

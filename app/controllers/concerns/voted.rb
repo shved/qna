@@ -1,8 +1,8 @@
 module Voted
   extend ActiveSupport::Concern
   included do
-    before_action :load_votable
-    before_action :authorize_vote
+    before_action :load_votable, only: [:vote_up, :vote_down, :unvote]
+    before_action :authorize_vote, only: [:vote_up, :vote_down, :unvote]
   end
 
   def vote_up
@@ -24,7 +24,7 @@ module Voted
 
     def authorize_vote
       if @votable.user == current_user || @votable.voted_by?(current_user)
-        render status: :forbidden, text: 'you just cant'
+        render status: :forbidden, text: 'you cant do it'
       end
     end
 end

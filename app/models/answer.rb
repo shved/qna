@@ -5,7 +5,7 @@ class Answer < ActiveRecord::Base
 
   include Votable
 
-  default_scope { order(best: :desc, score: :desc, created_at: :asc) }
+  default_scope { order(best: :desc, created_at: :asc) }
 
   validates :body, presence: true,
                    length: { in: 30..1000 }
