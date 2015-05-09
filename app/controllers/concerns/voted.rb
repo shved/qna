@@ -1,40 +1,30 @@
 module Voted
   extend ActiveSupport::Concern
-
   included do
-    before_action :load_votable_resource, only: [:like, :dislike, :withdraw_vote]
-    # after_action :update_votes, only: [:like, :dislike, :withdraw_vote]
-    helper_method :user_can_vote_for?
+    before_action :load_votable
+    before_action :authorize_vote
   end
 
-  def like
-    @votable.liked_by(current_user)
-    update_votes
+  def vote_up
+    @votable.vote(current_user, 1)
   end
 
-  def dislike
-    @votable.disliked_by(current_user)
-    update_votes
+  def vote_down
+    @votable.vote(current_user, -1)
   end
 
-  def withdraw_vote
-    @votable.withdraw_vote_by(current_user)
-    update_votes
+  def unvote
+    @votable.unvote(current_user) if @votable.voted_by? current_user
   end
 
   private
-
-  def load_votable_resource
-    @votable = controller_name.classify.constantize.find(params[:id])
-  end
-
-  def check_user_can_vote
-    unless user_can_vote_for(@votable)
-      render status: :forbidden
+    def load_votable
+      @votable = controller_name.classify.constantize.find(params[:id])
     end
-  end
 
-  def update_votes
-    render 'layouts/votable/update'
-  end
+    def authorize_vote
+      if @votable.user == current_user || @votable.voted_by?(current_user)
+        render status: :forbidden, text: 'you just cant'
+      end
+    end
 end

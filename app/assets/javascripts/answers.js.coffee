@@ -11,6 +11,7 @@ $(document).ready ->
     $("#edit-answer-#{ answer_id }").show()
 
   $('form.new_answer').bind 'ajax:success', (e, data, status, xhr) ->
+    console.log(xhr.responseText)
     answer = $.parseJSON(xhr.responseText)
     $('.answers').append("<div class='answer-" + answer.id + "'><p>" + answer.body + "</p></div>")
     $('textarea#answer_body').val('')
@@ -21,10 +22,9 @@ $(document).ready ->
 
   $('form.edit_answer').bind 'ajax:success', (e, data, status, xhr) ->
     answer = $.parseJSON(xhr.responseText)
-    id = $(this).closest('.answer').attr('id')
-    $(this).closest('.edit_answer').hide()
-    $(this).closest('p.answer_body').text(answer)
-    console.log(xhr.responseText)
+    id = $(this).attr('id').substr(-2, 2)
+    $(this).hide()
+    $('#answer-' + id + ' > p.answer_body').text(answer.body)
   .bind 'ajax:error', (e, xhr, status, error) ->
     errors = $.parseJSON(xhr.responseText)
     $.each errors, (index, value) ->

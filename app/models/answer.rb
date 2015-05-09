@@ -1,9 +1,11 @@
 class Answer < ActiveRecord::Base
-  default_scope { order(best: :desc, score: :desc, created_at: :asc) }
-
   belongs_to :question
   belongs_to :user
   has_many :attachments, as: :attachable
+
+  include Votable
+
+  default_scope { order(best: :desc, score: :desc, created_at: :asc) }
 
   validates :body, presence: true,
                    length: { in: 30..1000 }
@@ -22,9 +24,5 @@ class Answer < ActiveRecord::Base
       Answer.where(question: question_id, best: true).update_all(best: false)
       update(best: true)
     end
-  end
-
-  def vote
-    increment!(:score)
   end
 end
