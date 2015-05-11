@@ -2,15 +2,15 @@ module Voted
   extend ActiveSupport::Concern
   included do
     before_action :load_votable, only: [:vote_up, :vote_down, :unvote]
-    before_action :authorize_vote, only: [:vote_up, :vote_down, :unvote]
+    before_action :authorize_vote, only: [:vote_up, :vote_down]
   end
 
   def vote_up
-    @votable.vote(current_user, 1)
+    @votable.vote(current_user, 1) unless @votable.voted_by? current_user
   end
 
   def vote_down
-    @votable.vote(current_user, -1)
+    @votable.vote(current_user, -1) unless @votable.voted_by? current_user
   end
 
   def unvote

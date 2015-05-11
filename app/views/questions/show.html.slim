@@ -6,6 +6,8 @@
     br
     a= link_to 'Edit question', '', class: 'edit-question-link'
     = render 'edit'
+  - elsif current_user
+    = render partial: 'votes/vote', locals: { votable: @question }
 
   p= @question.body
   = render partial: 'attachments/attachments', locals: { container: @question }
