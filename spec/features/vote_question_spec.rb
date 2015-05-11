@@ -1,9 +1,9 @@
 require_relative 'features_helper'
 
-RSpec.feature 'User can vote', %q{
-  To like a question
-  As a registered user
-  I'd like to vote for it
+RSpec.feature 'Vote a question', %q{
+  To promote a question
+  As an authenticated user
+  I want to vote for it
 }, type: :feature, js: true do
 
   given! (:user1) { create(:user) }
@@ -17,39 +17,39 @@ RSpec.feature 'User can vote', %q{
   end
 
   scenario 'User can vote for question' do
-    within "#question_#{ question.id }" do
-      expect(page).to have_text 'Like'
-      expect(page).to have_text 'Dislike'
-      expect(page).to have_text 'Rating is: 0'
+    within "#vote_for_Question_#{ question.id }" do
+      expect(page).to have_link 'vote plus'
+      expect(page).to have_link 'vote minus'
+      expect(page).to have_text 'Score: 0'
     end
   end
 
   scenario 'User can vote for question only once' do
-    within "#question_#{ question.id }" do
-      click_link 'Like'
-      expect(page).to have_text 'Rating is: 1'
-      expect(page).to_not have_text 'Like'
-      expect(page).to have_text 'Withdraw'
+    within "vote_for_Question_#{ question.id }" do
+      click_link 'vote plus'
+      expect(page).to have_text 'Score: 1'
+      expect(page).to_not have_link 'vote plus'
+      expect(page).to have_text 'Cancel my vote'
     end
   end
 
   scenario 'User can cancel his vote and re-vote' do
-    within "#question_#{ question.id }" do
-      click_link 'Like'
-      expect(page).to have_text 'Rating is: 1'
-      click_link 'Withdraw'
-      expect(page).to have_text 'Rating is: 0'
-      click_link 'Dislike'
-      expect(page).to have_text 'Rating is: -1'
+    within "vote_for_Question_#{ question.id }" do
+      click_link 'vote plus'
+      expect(page).to have_text 'Score: 1'
+      click_link 'Cancel my vote'
+      expect(page).to have_text 'Score: 0'
+      click_link 'vote minus'
+      expect(page).to have_text 'Score: -1'
     end
   end
 
   scenario 'User can not vote for his question' do
     visit question_path(second_question)
-    within "#question_#{ second_question.id }" do
+    within "vote_for_Question_#{ question.id }" do
 
-      expect(page).to_not have_text 'Like'
-      expect(page).to_not have_text 'Dislike'
+      expect(page).to_not have_link 'vote plus'
+      expect(page).to_not have_link 'vote munus'
     end
   end
 end

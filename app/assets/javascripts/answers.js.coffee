@@ -11,7 +11,6 @@ $(document).ready ->
     $("#edit-answer-#{ answer_id }").show()
 
   $('form.new_answer').bind 'ajax:success', (e, data, status, xhr) ->
-    console.log(xhr.responseText)
     answer = $.parseJSON(xhr.responseText)
     $('.answers').append("<div class='answer-" + answer.id + "'><p>" + answer.body + "</p></div>")
     $('textarea#answer_body').val('')

@@ -21,8 +21,8 @@ RSpec.feature 'Edit an answer', %q{
       click_on 'Save'
     end
 
-    expect(page).to_not have_content answer.body
     expect(page).to have_content 'edited answer long enough to be valid'
+    expect(page).to_not have_content answer.body
   end
 
   scenario 'A user can not edit an another users answer', js: true do

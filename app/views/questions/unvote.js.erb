@@ -1,0 +1,7 @@
+<% if @votable.errors.present? %>
+  <% @votable.errors.full_messages.each do |message| %>
+    $('.alert-warning').html('<%= flash[:warning] %>');
+  <% end %>
+<% else %>
+  $('.question_box > .vote_box').html("<%= j render('votes/vote', locals: { votable: @votable }) %> ");
+<% end %>
