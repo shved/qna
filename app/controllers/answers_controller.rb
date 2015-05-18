@@ -22,7 +22,7 @@ class AnswersController < ApplicationController
     respond_to do |format|
       if @answer.save
         format.html { render partial: 'questions/answers', layout: false }
-        format.json { render json: @answer }
+        format.json { render partial: 'answers/answer' }
         flash.now[:notice] = 'Your answer submitted'
       else
         format.html { render text: @answer.errors.full_messages.join(', '), status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class AnswersController < ApplicationController
 
     respond_to do |format|
       if @answer.errors.empty?
-        format.json { render json: @answer }
+        format.json { render partial: 'answers/answer' }
         flash.now[:notice] = 'Answer updated'
       else
         format.json {render json: @answer.errors.full_messages, status: :unprocessable_entity }

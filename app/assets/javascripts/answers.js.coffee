@@ -11,18 +11,18 @@ $(document).ready ->
 
   editAnswerSuccess = (e, data, status, xhr) ->
     answer = $.parseJSON(xhr.responseText)
-    id = $(this).attr('data-id')
     $(this).hide()
-    $('#answer-' + id + ' > p.answer_body').text(answer.body)
+    $('#answer-' + answer.id).replaceWith(JST['templates/answer']({ answer: answer }))
 
   editAnswerError = (e, data, status, xhr) ->
     errors = $.parseJSON(xhr.responseText)
+    id = $(this).attr('data-id')
     $.each errors, (index, value) ->
-      $('.answer-errors').append(value)
+      $('#answer-' + id + ' > .answer-errors').append(value)
 
   createAnswerSuccess = (e, data, status, xhr) ->
     answer = $.parseJSON(xhr.responseText)
-    $('.answers').append("<div class='answer-" + answer.id + "'><p>" + answer.body + "</p></div>")
+    $('.answers').append(JST['templates/answer']({ answer: answer }))
     $('textarea#answer_body').val('')
 
   createAnswerError = (e, data, status, xhr) ->

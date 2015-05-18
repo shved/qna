@@ -1,7 +1,7 @@
 - @question.answers.each do |answer|
   - if answer.persisted?
     .answer id="answer-#{ answer.id }" data="#{ answer.id }"
-      p class="answer_body" = answer.body
+      p.answer_body = answer.body
       = render partial: 'attachments/attachments', locals: { container: answer }
       - if answer.best
         p= 'The best answer!'
