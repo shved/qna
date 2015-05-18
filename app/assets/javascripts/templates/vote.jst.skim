@@ -1,0 +1,11 @@
+.vote-box id="vote_for_#{ @votable.type }_#{ @votable.votable_id }"
+  .vote-errors
+  - if @votable.voted_by_user
+    p
+      a href="#{ @votable.votable_path }/unvote" data-method="patch" data-remote="true" data-type="json" rel="nofolow" Cancel my vote
+  - else
+    p
+      a href="#{ @votable.votable_path }/vote_up" data-method="patch" data-remote="true" data-type="json" rel="nofollow" vote up
+      |  /
+      a href="#{ @votable.votable_path }/vote_down" data-method="patch" data-remote="true" data-type="json" rel="nofollow" vote down
+  p = "Score: #{ @votable.score }"

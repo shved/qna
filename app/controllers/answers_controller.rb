@@ -32,7 +32,9 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer.update(answer_params)
+    if owns_answer?
+      @answer.update(answer_params)
+    end
 
     respond_to do |format|
       if @answer.errors.empty?

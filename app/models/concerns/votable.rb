@@ -17,6 +17,10 @@ module Votable
     votes.where(user: user).exists?
   end
 
+  def votable_for?(user)
+    true unless self.user_id == user.id
+  end
+
   def score
     votes.sum :value
   end

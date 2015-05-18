@@ -6,15 +6,33 @@ module Voted
   end
 
   def vote_up
-    @votable.vote(current_user, 1) unless @votable.voted_by? current_user
+    respond_to do |format|
+      format.json do
+        if @votable.vote(current_user, 1)
+          render partial: 'votes/vote'
+        end
+      end
+    end
   end
 
   def vote_down
-    @votable.vote(current_user, -1) unless @votable.voted_by? current_user
+    respond_to do |format|
+      format.json do
+        if @votable.vote(current_user, -1)
+          render partial: 'votes/vote'
+        end
+      end
+    end
   end
 
   def unvote
-    @votable.unvote(current_user) if @votable.voted_by? current_user
+    respond_to do |format|
+      format.json do
+        if @votable.voted_by?(current_user) && @votable.unvote(current_user)
+          render partial: 'votes/vote'
+        end
+      end
+    end
   end
 
   private
