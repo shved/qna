@@ -5,7 +5,6 @@ RSpec.feature 'Vote a question', %q{
   As an authenticated user
   I want to vote for it
 }, type: :feature, js: true do
-
   given! (:user1) { create(:user) }
   given! (:user2) { create(:user) }
   given! (:question) { create(:question, user: user1) }
