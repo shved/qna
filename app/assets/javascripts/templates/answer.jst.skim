@@ -1,12 +1,12 @@
 .answer id="answer-#{ @answer.id }" data="#{ @answer.id }"
   p.answer_body =@answer.body
-  - if @answer.attachments.any?
+  - if @answer.attachments
     .attachments
       p Attachments:
       ul
         - for a in @answer.attachments
           li
-            a href=a.url id="file-#{ a.id }" = a.filename
+            a href=a.url id="file-#{ a.id }" #{ a.url }
 
   p
     a data-method="delete" data-remote="true" href="#{ @answer.path }" rel="nofollow" Delete Aaswer
@@ -19,11 +19,11 @@
     input name="_method" type="hidden" value="patch"
     label for="answer_body" Answer
     .answer-errors
-    textarea id="answer_body" name="answer[body]" #{ @answer.body }
+    textarea id="answer_body" name="answer[body]" = @answer.body
     p Attachments:
     ul
       - for a, i in @answer.attachments
         li
-          a id="file-#{ a.id }" href="#{ a.filename }" =a.filename
+          a id="file-#{ a.id }" href="#{ a.url }" a.url
         a id="delete-file-#{ a.id }" data-remote="true" rel="nofollow" data-method="delete" href="#{ a.url }" Delete file
     input type='submit' name='commit' value='Save'
