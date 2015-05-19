@@ -41,7 +41,7 @@ class AnswersController < ApplicationController
         format.json { render partial: 'answers/answer' }
         flash.now[:notice] = 'Answer updated'
       else
-        format.json {render json: @answer.errors.full_messages, status: :unprocessable_entity }
+        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
       end
     end
   end
@@ -61,23 +61,24 @@ class AnswersController < ApplicationController
   end
 
   private
-    def owns_answer?
-      return true if @answer.user == current_user
-    end
 
-    def owns_question?
-      return true if @question.user == current_user
-    end
+  def owns_answer?
+    return true if @answer.user == current_user
+  end
 
-    def load_question
-      @question = Question.find params[:question_id]
-    end
+  def owns_question?
+    return true if @question.user == current_user
+  end
 
-    def load_answer
-      @answer = Answer.find params[:id]
-    end
+  def load_question
+    @question = Question.find params[:question_id]
+  end
 
-    def answer_params
-      params.require(:answer).permit(:body, :question_id, attachments_attributes: [:id, :file, :_destroy])
-    end
+  def load_answer
+    @answer = Answer.find params[:id]
+  end
+
+  def answer_params
+    params.require(:answer).permit(:body, :question_id, attachments_attributes: [:id, :file, :_destroy])
+  end
 end

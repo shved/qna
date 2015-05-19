@@ -36,13 +36,14 @@ module Voted
   end
 
   private
-    def load_votable
-      @votable = controller_name.classify.constantize.find(params[:id])
-    end
 
-    def authorize_vote
-      if @votable.user == current_user || @votable.voted_by?(current_user)
-        render status: :forbidden, text: 'you cant do it'
-      end
+  def load_votable
+    @votable = controller_name.classify.constantize.find(params[:id])
+  end
+
+  def authorize_vote
+    if @votable.user == current_user || @votable.voted_by?(current_user)
+      render status: :forbidden, text: 'you cant do it'
     end
+  end
 end

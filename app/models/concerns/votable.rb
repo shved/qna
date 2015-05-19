@@ -6,7 +6,7 @@ module Votable
   end
 
   def vote(user, value)
-    vote = votes.find_or_create_by(user: user, value: value)
+    votes.find_or_create_by(user: user, value: value)
   end
 
   def unvote(user)
