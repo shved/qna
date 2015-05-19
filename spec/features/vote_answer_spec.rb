@@ -19,36 +19,36 @@ RSpec.feature 'Vote an answer', %q{
 
   scenario 'User can vote for answer' do
     within "#vote_for_Answer_#{ answer.id }" do
-      expect(page).to have_link 'vote plus'
-      expect(page).to have_link 'vote minus'
+      expect(page).to have_link 'vote up'
+      expect(page).to have_link 'vote down'
       expect(page).to have_text 'Score: 0'
     end
   end
 
   scenario 'User can vote for answer only once' do
     within "#vote_for_Answer_#{ answer.id }" do
-      click_link 'vote plus'
+      click_link 'vote up'
       expect(page).to have_text 'Score: 1'
-      expect(page).to_not have_link 'vote plus'
+      expect(page).to_not have_link 'vote up'
       expect(page).to have_text 'Cancel my vote'
     end
   end
 
   scenario 'User can cancel his vote and re-vote' do
     within "#vote_for_Answer_#{ answer.id }" do
-      click_link 'vote plus'
+      click_link 'vote up'
       expect(page).to have_text 'Score: 1'
       click_link 'Cancel my vote'
       expect(page).to have_text 'Score: 0'
-      click_link 'vote minus'
+      click_link 'vote down'
       expect(page).to have_text 'Score: -1'
     end
   end
 
   scenario 'User can not vote for his answer' do
     within "#vote_for_Answer_#{ second_answer.id }" do
-      expect(page).to_not have_link 'vote plus'
-      expect(page).to_not have_link 'vote minus'
+      expect(page).to_not have_link 'vote up'
+      expect(page).to_not have_link 'vote down'
     end
   end
 end

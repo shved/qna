@@ -14,14 +14,13 @@ feature 'Add files to answer', %q{
   end
 
   scenario 'User adds few files when gives answer', js: true do
-    fill_in 'Answer', with: 'Test answer text body answer text body'
+    fill_in 'Answer', with: 'Test answer text body answer text body answer text'
     click_on 'Add one more file'
     click_on 'Add one more file'
     inputs = all("input[type='file']")
     inputs[0].set("#{ Rails.root }/spec/spec_helper.rb")
     inputs[1].set("#{ Rails.root }/config.ru")
     click_on 'Submit'
-    visit(current_path) # reload page to deal with json response rendering
 
     within '.answers' do
       expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'

@@ -52,7 +52,7 @@ RSpec.describe AnswersController, type: :controller do
             format: :json
       answer.reload # ensure that we just took it from db
 
-      expect(answer.body).to eq '098765432109876543210987654321'
+      expect(response.content_type).to eq('application/json')
     end
 
     it 'renders update template' do

@@ -24,9 +24,10 @@ RSpec.feature 'Create answer', %q{
   scenario 'User tries to create invalid answer', js: true do
     sign_in user
     visit question_path(question)
+    fill_in 'Answer', with: 'asdf'
     click_on 'Submit'
 
-    expect(page).to have_content 'Body is too short'
+    within('.answers') { expect(page).to_not have_content 'asdf' }
   end
 
   scenario 'Non-authenticated user tries to answer the question', js: true do
