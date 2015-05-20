@@ -1,16 +1,10 @@
-= nested_form_for [@question, @answer], remote: true do |f|
+= nested_form_for [@question, @answer], remote: true, data: { type: :json } do |f|
   = f.label :body, 'Answer'
   .answer-errors
   = f.text_area :body
   = f.fields_for :attachments do |a|
-    - attachment = a.object
-    - if attachment.new_record?
-      = a.label :file
-      = a.file_field :file
-      = a.link_to_remove 'Remove file'
-    - else
-     = link_to attachment.file.filename, attachment.file.url, id: "file-#{ attachment.id }"
-     - if current_user.id == answer.user_id
-        = link_to 'Delete file', a, method: :delete, id: "delete-file-#{ a.id }", remote: true
+    = a.label :file
+    = a.file_field :file
+    = a.link_to_remove 'Remove file'
   = f.link_to_add 'Add one more file', :attachments
   p= f.submit 'Submit'

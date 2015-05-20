@@ -14,7 +14,7 @@ feature 'Add files to answer', %q{
   end
 
   scenario 'User adds few files when gives answer', js: true do
-    fill_in 'Answer', with: 'Test answer text body answer text body'
+    fill_in 'Answer', with: 'Test answer text body answer text body answer text'
     click_on 'Add one more file'
     click_on 'Add one more file'
     inputs = all("input[type='file']")

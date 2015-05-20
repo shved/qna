@@ -14,15 +14,14 @@ RSpec.feature 'Edit an answer', %q{
   scenario 'A user edit his answer', js: true do
     sign_in answer.user
     visit question_path question
-
     within '.answers' do
       click_on 'Edit answer'
       fill_in 'Answer', with: 'edited answer long enough to be valid'
       click_on 'Save'
     end
 
-    expect(page).to_not have_content answer.body
     expect(page).to have_content 'edited answer long enough to be valid'
+    expect(page).to_not have_content answer.body
   end
 
   scenario 'A user can not edit an another users answer', js: true do
