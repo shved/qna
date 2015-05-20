@@ -10,6 +10,8 @@ module Voted
       format.json do
         if @votable.vote(current_user, 1)
           render partial: 'votes/vote'
+        else
+          render plain: 'vote missed', layout: true
         end
       end
     end
@@ -20,6 +22,8 @@ module Voted
       format.json do
         if @votable.vote(current_user, -1)
           render partial: 'votes/vote'
+        else
+          render plain: 'vote missed', layout: true
         end
       end
     end
@@ -30,6 +34,8 @@ module Voted
       format.json do
         if @votable.voted_by?(current_user) && @votable.unvote(current_user)
           render partial: 'votes/vote'
+        else
+          render plain: 'vote missed', layout: true
         end
       end
     end
