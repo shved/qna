@@ -15,7 +15,7 @@
   hr
 
 h4 Answers
-.answers
+.answers data={ question_id: "#{ @question.id }" }
   = render 'answers'
   hr
 
@@ -23,3 +23,5 @@ h4 Answers
   = render 'answers/new'
 - else
   | Sign in or sign up to leave answers
+
+= subscribe_to "/questions/#{ @question.id }"

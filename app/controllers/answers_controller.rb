@@ -22,6 +22,14 @@ class AnswersController < ApplicationController
     respond_to do |format|
       if @answer.save
         format.html { render partial: 'questions/answers', layout: false }
+        format.js do
+          if @answer.save
+            PrivatePub.publish_to "/questions/#{ @question.id }",
+                                  answer: render('answers/_answer.json.jbuilder')
+          else
+            render :error
+          end
+        end
         format.json { render partial: 'answers/answer' }
         flash.now[:notice] = 'Your answer submitted'
       else

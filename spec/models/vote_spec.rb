@@ -18,14 +18,14 @@ RSpec.describe Vote, type: :model do
     before { @votable = send votable_name }
 
     describe "vote for #{ votable_name }" do
-      it "voted up by user" do
+      it 'voted up by user' do
         expect { @votable.vote user, 1 }.to change(@votable.votes, :count).by(1)
-        expect( @votable.voted_by? user ).to be true
+        expect(@votable.voted_by? user).to be true
       end
 
-      it "voted down by user" do
+      it 'voted down by user' do
         expect { @votable.vote user, -1 }.to change(@votable.votes, :count).by(1)
-        expect( @votable.voted_by? user ).to be true
+        expect(@votable.voted_by? user).to be true
       end
 
       it "only one vote is accepted from user for any given #{ votable_name }" do
@@ -34,18 +34,18 @@ RSpec.describe Vote, type: :model do
         expect { @votable.vote user, -1 }.to_not change(@votable.votes, :count)
       end
 
-      it "change vote" do
+      it 'change vote' do
         @votable.vote user, 1
         @votable.unvote user
-        expect( @votable.voted_by? user ).to be false
+        expect(@votable.voted_by? user).to be false
         expect { @votable.vote user, -1 }.to change(@votable.votes, :count).by(1)
-        expect( @votable.voted_by? user ).to be true
+        expect(@votable.voted_by? user).to be true
       end
     end
 
     describe "#{ votable_name } score" do
       it "#{ votable_name } screo is 0 by default" do
-        expect( @votable.score ).to eq 0
+        expect(@votable.score).to eq 0
       end
 
       it "voted up by user increments #{ votable_name } score" do

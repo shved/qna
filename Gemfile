@@ -18,6 +18,8 @@ gem 'carrierwave'
 gem 'remotipart'
 gem 'nested_form'
 gem 'skim', '>= 0.9.3'
+gem 'private_pub'
+gem 'thin'
 
 group :development, :test do
   gem 'rspec-rails'
