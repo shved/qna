@@ -1,0 +1,4 @@
+.comments id="comments-of-#{ commentable.class.name }-#{ commentable.id }"
+  p Comments
+  - commentable.comments.each do |comment|
+    = render partial: 'comments/comment' locals: { comment: comment }

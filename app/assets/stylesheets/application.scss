@@ -67,3 +67,13 @@ body {
     background: yellow;
   }
 }
+
+.comments {
+  margin-left: 30px;
+  .comment {
+    p {
+      font-size: 0.8em;
+    }
+  }
+}
+

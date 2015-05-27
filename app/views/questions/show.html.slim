@@ -12,6 +12,10 @@
   - elsif current_user
     = render partial: 'votes/votes', locals: { votable: @question }
 
+  - if @question.comments
+    = render 'comments/comments', commentable: @question
+  = render 'comments/new', commentable: @question
+
   hr
 
 h4 Answers

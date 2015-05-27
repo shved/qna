@@ -1,0 +1,10 @@
+- if current_user
+  .comment-create
+    .comment-create-link id="link-to-create-#{ commentable.class.name }-#{ resource.id }"
+      = link_to 'add a comment', '#'
+    .comment-create-form id="form-for-#{ commentable.class.name }-#{ commentable.id }"
+      .comment-errors
+      = form_for commentable, Comment.new, data: { type: :json }, remote: true do |f|
+        p = f.label :body, 'Your comment'
+        p = f.text_area :body
+        p = f.submit 'Submit'
