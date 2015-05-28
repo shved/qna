@@ -24,7 +24,7 @@ class AnswersController < ApplicationController
         format.html { render partial: 'questions/answers', layout: false }
         format.js do
           if @answer.save
-            PrivatePub.publish_to "/questions/#{ @question.id }",
+            PrivatePub.publish_to "/questions/#{ @question.id }/answers",
                                   answer: render('answers/_answer.json.jbuilder')
           else
             render :error

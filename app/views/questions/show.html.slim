@@ -1,4 +1,4 @@
-.question-box
+.question-box id="question-#{ @question.id }"
   h2= @question.title
 
   p= @question.body
@@ -12,10 +12,11 @@
   - elsif current_user
     = render partial: 'votes/votes', locals: { votable: @question }
 
-  - if @question.comments.any?
-    = render 'comments/comments', commentable: @question
+  .comments id="comments-for-question-#{ @question.id }"
+    - if @question.comments.any?
+      = render 'comments/comments', commentable: @question
 
-  = render 'comments/new', commentable: @question
+    = render 'comments/new', commentable: @question
 
   hr
 
@@ -29,4 +30,5 @@ h4 Answers
 - else
   | Sign in or sign up to leave answers
 
-= subscribe_to "/questions/#{ @question.id }"
+= subscribe_to "/questions/#{ @question.id }/answers"
+= subscribe_to "/questions/#{ @question.id }/comments"

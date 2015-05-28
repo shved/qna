@@ -48,6 +48,6 @@ $(document).ready ->
   $(document).on('ajax:error', '.answers .vote-box', voteError)
 
   questionId = $('.answers').data('questionId')
-  PrivatePub.subscribe '/questions/' + questionId, (data, channel) ->
+  PrivatePub.subscribe '/questions/' + questionId + '/answers', (data, channel) ->
     answer = $.parseJSON(data['answer'])
     $('.answers').append(JST['templates/answer']({ answer: answer }))

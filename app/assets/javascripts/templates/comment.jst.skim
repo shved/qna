@@ -1,2 +1,2 @@
-.comment id="comment-#{ comment.id }" data="comment-#{ comment.id }"
-  p = comment.body
+.comment id="comment-#{ @comment.id }"
+  p = @comment.body
