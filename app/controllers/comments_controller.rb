@@ -7,8 +7,10 @@ class CommentsController < ApplicationController
     respond_to do |format|
       format.js do
         if @comment.save
-          PrivatePub.publish_to "/questions/#{ @commentable.try(:question).try(:id) || @commentable.id }/comments",
-                                comment: render(template: 'comments/comment.json.jbuilder')
+          PrivatePub.publish_to(
+            "/questions/#{ @commentable.try(:question).try(:id) || @commentable.id }/comments",
+            comment: render(template: 'comments/comment.json.jbuilder')
+          )
         else
           render :error
         end

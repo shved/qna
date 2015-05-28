@@ -212,7 +212,7 @@ Style/IfUnlessModifier:
   Description: Favor modifier if/unless usage when you have a single-line body.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#if-as-a-modifier
   Enabled: false
-  MaxLineLength: 110
+  MaxLineLength: 130
 Style/IndentationWidth:
   Description: Use 2 spaces for indentation.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#spaces-indentation
@@ -509,7 +509,7 @@ Metrics/LineLength:
   Description: Limit lines to 110 characters.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#110-character-limits
   Enabled: true
-  Max: 110
+  Max: 130
   AllowURI: true
   URISchemes:
   - http
@@ -589,7 +589,7 @@ Rails/ScopeArgs:
   - app/models/**/*.rb
 Rails/Validation:
   Description: Use validates :attribute, hash of validations.
-  Enabled: true
+  Enabled: false
   Include:
   - app/models/**/*.rb
 Style/InlineComment:
