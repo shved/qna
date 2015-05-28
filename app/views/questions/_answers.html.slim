@@ -29,7 +29,8 @@
                     = link_to 'Delete file', a, method: :delete, id: "delete-file-#{ a.id }", remote: true
             = f.submit 'Save'
 
-      - if answer.comments
+      - if answer.comments.any?
         = render 'comments/comments', commentable: answer
+
       = render 'comments/new', commentable: answer
-hr
+  hr

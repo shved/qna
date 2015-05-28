@@ -1,6 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :load_commentable
+  before_action :authenticate_user!, :load_commentable
 
   def create
     @comment = @commentable.comments.build(comment_params)
@@ -20,18 +19,12 @@ class CommentsController < ApplicationController
   private
 
   def load_commentable
-    @commentable = commentable_klass.find params["#{commentable_name}_id"]
+    params.each do |param_name, value|
+      @commentable = param_name[0..-3].classify.constantize.find(value) if /(.+)_id$/.match(param_name)
+    end
   end
 
   def comment_params
-    params.require(:comment).permit(:body, :commentable).merge(user_id: current_user.id)
-  end
-
-  def commentable_name
-    params[:commentable]
-  end
-
-  def commentable_klass
-    commentable_name.classify.constantize
+    params.require(:comment).permit(:body).merge(user_id: current_user.id)
   end
 end

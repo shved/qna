@@ -1,14 +1,15 @@
 class Answer < ActiveRecord::Base
   belongs_to :question
   belongs_to :user
-  has_many :attachments, as: :attachable
+  has_many :attachments, dependent: :destroy, as: :attachable
+  has_many :comments, dependent: :destroy, as: :commentable
 
   include Votable
 
   default_scope { order(best: :desc, created_at: :asc) }
 
   validates :body, presence: true,
-                   length: { in: 30..1000 }
+                   length: { in: 15..1000 }
   validates :question_id, presence: true
   validates :user_id, presence: true
   validates :score, numericality: { only_integer: true }
