@@ -1,10 +1,13 @@
 class Question < ActiveRecord::Base
   has_many :answers, dependent: :destroy
-  has_many :attachments, as: :attachable
+  has_many :attachments, dependent: :destroy, as: :attachable
+  has_many :comments, dependent: :destroy, as: :commentable
   belongs_to :user
 
-  validates :title, presence: true, length: { in: 15..150 }
-  validates :body, presence: true, length: { in: 30..1000 }
+  include Votable
+
+  validates :title, presence: true, length: { in: 10..150 }
+  validates :body, presence: true, length: { in: 15..1000 }
   validates :user_id, presence: true
 
   validates_associated :user

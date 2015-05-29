@@ -200,8 +200,7 @@ Style/GuardClause:
   Enabled: false
   MinBodyLength: 1
 Style/HashSyntax:
-  Description: 'Prefer Ruby 1.9 hash syntax { a: 1, b: 2 } over 1.8 syntax { :a =>
-    1, :b => 2 }.'
+  Description: 'Prefer Ruby 1.9 hash syntax { a: 1, b: 2 } over 1.8 syntax { :a => 1, :b => 2 }.'
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#hash-literals
   Enabled: true
   EnforcedStyle: ruby19
@@ -589,7 +588,7 @@ Rails/ScopeArgs:
   - app/models/**/*.rb
 Rails/Validation:
   Description: Use validates :attribute, hash of validations.
-  Enabled: true
+  Enabled: false
   Include:
   - app/models/**/*.rb
 Style/InlineComment:
@@ -649,6 +648,8 @@ Style/Blocks:
     ugly). Prefer {...} over do...end for single-line blocks.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#single-line-blocks
   Enabled: true
+  Exclude:
+  - app/spec/**/*.rb
 Style/CaseEquality:
   Description: Avoid explicit use of the case equality operator(===).
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#no-case-equality

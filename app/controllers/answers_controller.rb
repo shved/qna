@@ -1,7 +1,9 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :index, :vote]
+  before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question
-  before_action :load_answer, only: [:destroy, :show, :vote, :mark_best]
+  before_action :load_answer, only: [:destroy, :show, :mark_best, :update]
+
+  include Voted
 
   def index
     @answers = @question.answers
@@ -15,41 +17,63 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.create answer_params.merge(user: current_user)
+    @answer = @question.answers.build answer_params.merge(user: current_user)
 
-    if @answer.errors.empty?
-      flash[:notice] = 'Your answer submitted'
-    else
-      flash[:warning] = 'Oops! Your answer wont save'
+    respond_to do |format|
+      if @answer.save
+        format.html { render partial: 'questions/answers', layout: false }
+        format.js do
+          PrivatePub.publish_to "/questions/#{ @question.id }/answers",
+                                  answer: render('answers/_answer.json.jbuilder')
+        end
+        format.json { render partial: 'answers/answer' }
+        flash.now[:notice] = 'Your answer submitted'
+      else
+        format.html { render text: @answer.errors.full_messages.join(', '), status: :unprocessable_entity }
+        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+        format.js { render :error }
+      end
     end
   end
 
   def update
-    @answer = Answer.find(params[:id])
-    @answer.update(answer_params)
+    if owns_answer?
+      @answer.update(answer_params)
+    end
+
+    respond_to do |format|
+      if @answer.errors.empty?
+        format.json { render partial: 'answers/answer' }
+        flash.now[:notice] = 'Answer updated'
+      else
+        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+      end
+    end
   end
 
   def destroy
-    if @answer.user == current_user
+    if owns_answer?
       @answer.destroy
       flash[:notice] = 'Your answer deleted'
     end
   end
 
   def mark_best
-    if @question.user_id == current_user.id
+    if owns_question?
       @answer.mark_best
       flash[:notice] = 'Successfully accepted answer'
-    else
-      raise 'cant mark best'
     end
   end
 
-  def vote
-    @answer.vote
+  private
+
+  def owns_answer?
+    return true if @answer.user == current_user
   end
 
-  private
+  def owns_question?
+    return true if @question.user == current_user
+  end
 
   def load_question
     @question = Question.find params[:question_id]

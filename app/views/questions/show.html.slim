@@ -1,18 +1,27 @@
-.question-box
+.question-box id="question-#{ @question.id }"
   h2= @question.title
+
+  p= @question.body
+  = render partial: 'attachments/attachments', locals: { container: @question }
 
   - if current_user && (@question.user_id == current_user.id)
     a= link_to 'Delete question', @question, method: :delete
     br
     a= link_to 'Edit question', '', class: 'edit-question-link'
     = render 'edit'
+  - elsif current_user
+    = render partial: 'votes/votes', locals: { votable: @question }
 
-  p= @question.body
-  = render partial: 'attachments/attachments', locals: { container: @question }
+  .comments id="comments-for-question-#{ @question.id }"
+    - if @question.comments.any?
+      = render 'comments/comments', commentable: @question
+
+    = render 'comments/new', commentable: @question
+
   hr
 
 h4 Answers
-.answers
+.answers data={ question_id: "#{ @question.id }" }
   = render 'answers'
   hr
 
@@ -20,3 +29,6 @@ h4 Answers
   = render 'answers/new'
 - else
   | Sign in or sign up to leave answers
+
+= subscribe_to "/questions/#{ @question.id }/answers"
+= subscribe_to "/questions/#{ @question.id }/comments"

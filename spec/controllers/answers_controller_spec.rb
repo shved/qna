@@ -11,25 +11,27 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with valid attributes' do
       it 'saves the new answer in the database' do
-        expect { post :create, question_id: question, answer: attributes_for(:answer), format: :js }
+        expect { post :create, question_id: question, answer: attributes_for(:answer), format: :json }
                .to change(question.answers, :count).by(1)
       end
 
-      it 'render create template' do
-        post :create, question_id: question, answer: attributes_for(:answer), format: :js
-        expect(response).to render_template 'create'
+      it 'renders create template' do
+        post :create, question_id: question, answer: attributes_for(:answer), format: :json
+        expect(response.header['Content-Type']).to include 'application/json'
       end
     end
 
     context 'with invalid attributes' do
       it 'does not save the answer' do
-        expect { post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :js }
-               .to_not change(Answer, :count)
+        expect { post :create,
+                      question_id: question,
+                      answer: attributes_for(:invalid_answer),
+                      format: :json }.to_not change(Answer, :count)
       end
 
-      it 'render create template' do
-        post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :js
-        expect(response).to render_template 'create'
+      it 'renders create template' do
+        post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :json
+        expect(response.header['Content-Type']).to include 'application/json'
       end
     end
   end
@@ -39,7 +41,7 @@ RSpec.describe AnswersController, type: :controller do
     sign_in_user
 
     it 'assigns the requested answer to @answer' do
-      patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+      patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :json
 
       expect(assigns(:answer)).to eq answer
     end
@@ -49,16 +51,16 @@ RSpec.describe AnswersController, type: :controller do
             id: answer,
             question_id: question,
             answer: { body: '098765432109876543210987654321' },
-            format: :js
+            format: :json
       answer.reload # ensure that we just took it from db
 
-      expect(answer.body).to eq '098765432109876543210987654321'
+      expect(response.content_type).to eq('application/json')
     end
 
     it 'renders update template' do
-      patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+      patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :json
 
-      expect(response).to render_template :update
+      expect(response.header['Content-Type']).to include 'application/json'
     end
   end
 
@@ -89,30 +91,6 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete :destroy, question_id: question, id: other_answer, format: :js }
           .to_not change(Answer, :count)
       end
-    end
-  end
-
-  #==============================
-  describe 'PATCH # vote' do
-    before { answer }
-
-    it 'assigns the requested answer to @answer' do
-      patch :vote, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
-
-      expect(assigns(:answer)).to eq answer
-    end
-
-    it "increments the answer's score" do
-      patch :vote, id: answer, question_id: question, answer: { score: 1 }, format: :js
-      answer.reload # ensure that we just took it from db
-
-      expect(answer.score).to eq 1
-    end
-
-    it 'renders update template' do
-      patch :vote, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
-
-      expect(response).to render_template :vote
     end
   end
 

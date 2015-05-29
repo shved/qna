@@ -1,7 +1,7 @@
 - @question.answers.each do |answer|
   - if answer.persisted?
-    .answer id="answer-#{ answer.id }"
-      p= answer.body
+    .answer id="answer-#{ answer.id }" data="#{ answer.id }"
+      p.answer_body = answer.body
       = render partial: 'attachments/attachments', locals: { container: answer }
       - if answer.best
         p= 'The best answer!'
@@ -9,14 +9,14 @@
         - if current_user == @question.user
           p= link_to 'Make best', mark_best_question_answer_path(@question, answer),
             id: "make-best-#{ answer.id }", method: :patch, remote: true
-      p= link_to '+', vote_question_answer_path(@question, answer), method: :patch, remote: true
-      p= "Score: #{ answer.score }"
+      - if user_signed_in?
+        = render partial: 'votes/votes', locals: { votable: answer }
       - if current_user == answer.user
         p= link_to 'Delete answer', [answer.question, answer],
             remote: true, method: :delete, data: { answer: answer }
         p= link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
         br
-        = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{ answer.id }" } do |f|
+        = form_for [@question, answer], remote: true, data: { type: :json, id: answer.id }, html: { id: "edit-answer-#{ answer.id }" } do |f|
             = f.label :body, 'Answer'
             .answer-errors
             = f.text_area :body
@@ -28,4 +28,9 @@
                   - if current_user.id == answer.user_id
                     = link_to 'Delete file', a, method: :delete, id: "delete-file-#{ a.id }", remote: true
             = f.submit 'Save'
+      .comments id="comments-for-answer-#{ answer.id }"
+        - if answer.comments.any?
+          = render 'comments/comments', commentable: answer
+
+        = render 'comments/new', commentable: answer
   hr
