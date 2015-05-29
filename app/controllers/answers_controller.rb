@@ -23,18 +23,15 @@ class AnswersController < ApplicationController
       if @answer.save
         format.html { render partial: 'questions/answers', layout: false }
         format.js do
-          if @answer.save
-            PrivatePub.publish_to "/questions/#{ @question.id }/answers",
+          PrivatePub.publish_to "/questions/#{ @question.id }/answers",
                                   answer: render('answers/_answer.json.jbuilder')
-          else
-            render :error
-          end
         end
         format.json { render partial: 'answers/answer' }
         flash.now[:notice] = 'Your answer submitted'
       else
         format.html { render text: @answer.errors.full_messages.join(', '), status: :unprocessable_entity }
         format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+        format.js { render :error }
       end
     end
   end

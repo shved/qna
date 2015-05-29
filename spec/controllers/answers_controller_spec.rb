@@ -23,8 +23,10 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save the answer' do
-        expect { post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :json }
-               .to_not change(Answer, :count)
+        expect { post :create,
+                      question_id: question,
+                      answer: attributes_for(:invalid_answer),
+                      format: :json }.to_not change(Answer, :count)
       end
 
       it 'renders create template' do

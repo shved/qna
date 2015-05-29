@@ -27,6 +27,7 @@ RSpec.feature 'Create answer', %q{
     fill_in 'Answer', with: 'asdf'
     click_on 'Submit'
 
+    expect(page).to have_content 'Question is invalid'
     within('.answers') { expect(page).to_not have_content 'asdf' }
   end
 

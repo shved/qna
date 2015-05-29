@@ -12,7 +12,7 @@ class CommentsController < ApplicationController
             comment: render(template: 'comments/comment.json.jbuilder')
           )
         else
-          render :error
+          render 'comments/error'
         end
       end
     end
