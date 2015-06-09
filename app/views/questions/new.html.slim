@@ -1,6 +1,6 @@
 h1 Describe your issue here
 
-= nested_form_for @question do |f|
+= nested_form_for Question.new do |f|
   = f.label :title
   = f.text_field :title, autofocus: true
   br

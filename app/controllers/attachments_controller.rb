@@ -1,8 +1,11 @@
 class AttachmentsController < ApplicationController
   before_action :authenticate_user!, :check_authorship
 
+  respond_to :js
+
   def destroy
     @attachment.destroy
+    respond_with(@attachment)
   end
 
   private

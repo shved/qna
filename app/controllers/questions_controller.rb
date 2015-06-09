@@ -4,44 +4,39 @@ class QuestionsController < ApplicationController
 
   include Voted
 
+  respond_to :js, only: :update
+
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
-    @answer = Answer.new
+    respond_with @question
   end
 
   def new
-    @question = Question.new
+    respond_with @question
   end
 
   def edit
   end
 
   def create
-    @question = Question.create question_params.merge(user: current_user)
+    respond_with(@question = Question.create(question_params.merge(user: current_user)))
 
     if @question.errors.empty?
       PrivatePub.publish_to '/questions', question: @question.to_json
-      flash[:notice] = 'Your question successfully created.'
-      redirect_to @question
-    else
-      flash[:notice] = 'You must fill all fields.'
-      render :new
     end
   end
 
   def update
     @question.update(question_params)
+    respond_with @question
   end
 
   def destroy
     if @question.user == current_user
-      @question.destroy
-      redirect_to questions_path, notice: 'Your question was deleted'
-    else
-      redirect_to @question
+      respond_with(@question.destroy)
     end
   end
 

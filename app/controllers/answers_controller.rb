@@ -5,6 +5,9 @@ class AnswersController < ApplicationController
 
   include Voted
 
+  respond_to :json, only: :update
+  respond_to :js, only: :create
+
   def index
     @answers = @question.answers
   end
@@ -17,21 +20,16 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.build answer_params.merge(user: current_user)
+    @answer = @question.answers.create answer_params.merge(user: current_user)
 
-    respond_to do |format|
-      if @answer.save
-        format.html { render partial: 'questions/answers', layout: false }
-        format.js do
+    respond_with @answer do |format|
+      format.js do
+        if @answer.valid?
           PrivatePub.publish_to "/questions/#{ @question.id }/answers",
-                                  answer: render('answers/_answer.json.jbuilder')
+                                answer: render('answers/_answer.json.jbuilder')
+        else
+          render 'answers/error'
         end
-        format.json { render partial: 'answers/answer' }
-        flash.now[:notice] = 'Your answer submitted'
-      else
-        format.html { render text: @answer.errors.full_messages.join(', '), status: :unprocessable_entity }
-        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
-        format.js { render :error }
       end
     end
   end
@@ -39,14 +37,8 @@ class AnswersController < ApplicationController
   def update
     if owns_answer?
       @answer.update(answer_params)
-    end
-
-    respond_to do |format|
-      if @answer.errors.empty?
+      respond_with @question, @answer do |format|
         format.json { render partial: 'answers/answer' }
-        flash.now[:notice] = 'Answer updated'
-      else
-        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
       end
     end
   end

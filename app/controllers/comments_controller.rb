@@ -1,10 +1,10 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!, :load_commentable
 
+  respond_to :js
+
   def create
-    @comment = @commentable.comments.build(comment_params)
-    @comment.user = current_user
-    respond_to do |format|
+    respond_with(@comment = Comment.create(comment_params.merge(commentable: @commentable))) do |format|
       format.js do
         if @comment.save
           PrivatePub.publish_to(

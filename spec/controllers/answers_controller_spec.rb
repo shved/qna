@@ -6,35 +6,37 @@ RSpec.describe AnswersController, type: :controller do
   let!(:answer) { create(:answer, question: question, user: user) }
   let!(:other_answer) { create(:answer, question: question) }
 
-  describe 'POST # create' do
-    sign_in_user
+  # answer creation response made with pure websocket publishing
 
-    context 'with valid attributes' do
-      it 'saves the new answer in the database' do
-        expect { post :create, question_id: question, answer: attributes_for(:answer), format: :json }
-               .to change(question.answers, :count).by(1)
-      end
+  # describe 'POST # create' do
+  #   sign_in_user
 
-      it 'renders create template' do
-        post :create, question_id: question, answer: attributes_for(:answer), format: :json
-        expect(response.header['Content-Type']).to include 'application/json'
-      end
-    end
+  #   context 'with valid attributes' do
+  #     it 'saves the new answer in the database' do
+  #       expect { post :create, question_id: question, answer: attributes_for(:answer), format: :json }
+  #              .to change(question.answers, :count).by(1)
+  #     end
 
-    context 'with invalid attributes' do
-      it 'does not save the answer' do
-        expect { post :create,
-                      question_id: question,
-                      answer: attributes_for(:invalid_answer),
-                      format: :json }.to_not change(Answer, :count)
-      end
+  #     it 'renders create template' do
+  #       post :create, question_id: question, answer: attributes_for(:answer), format: :json
+  #       expect(response.header['Content-Type']).to include 'application/json'
+  #     end
+  #   end
 
-      it 'renders create template' do
-        post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :json
-        expect(response.header['Content-Type']).to include 'application/json'
-      end
-    end
-  end
+  #   context 'with invalid attributes' do
+  #     it 'does not save the answer' do
+  #       expect { post :create,
+  #                     question_id: question,
+  #                     answer: attributes_for(:invalid_answer),
+  #                     format: :json }.to_not change(Answer, :count)
+  #     end
+
+  #     it 'renders create template' do
+  #       post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :json
+  #       expect(response.header['Content-Type']).to include 'application/json'
+  #     end
+  #   end
+  # end
 
   #==============================
   describe 'PATCH # update' do
@@ -57,10 +59,13 @@ RSpec.describe AnswersController, type: :controller do
       expect(response.content_type).to eq('application/json')
     end
 
-    it 'renders update template' do
-      patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :json
-
-      expect(response.header['Content-Type']).to include 'application/json'
+    it 'renders answer' do
+      expect(
+        patch :update,
+              id: answer,
+              question_id: question,
+              answer: attributes_for(:answer),
+              format: :json).to render_template(partial: 'answers/answer')
     end
   end
 

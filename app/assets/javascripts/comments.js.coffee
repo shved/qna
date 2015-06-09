@@ -13,8 +13,6 @@ $(document).ready ->
   PrivatePub.subscribe '/questions/' + questionId + '/comments', (data, channel) ->
     comment = $.parseJSON(data['comment'])
     commentableIdSelector = comment.commentable + '-' + comment.commentable_id
-    console.log(commentableIdSelector)
-    console.log('#' + commentableIdSelector + ' > .comments-for-' + commentableIdSelector)
     content = JST['templates/comment']({ comment: comment })
     $('#' + commentableIdSelector + ' > #comments-for-' + commentableIdSelector).append(content)
     $('#' + commentableIdSelector + ' > .comment-create-form').hide()
