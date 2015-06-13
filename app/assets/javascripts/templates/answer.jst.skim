@@ -9,7 +9,7 @@
             a href=a.url id="file-#{ a.id }" #{ a.url }
 
   p
-    a data-method="delete" data-remote="true" href="#{ @answer.path }" rel="nofollow" Delete Aaswer
+    a data-method="delete" data-remote="true" href="#{ @answer.path }" rel="nofollow" Delete Answer
 
   p
     a href="#" class='edit-answer-link' data-answer-id="#{ @answer.id }" Edit answer

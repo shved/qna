@@ -41,31 +41,30 @@ RSpec.describe AnswersController, type: :controller do
   #==============================
   describe 'PATCH # update' do
     sign_in_user
+    let(:answer_updates) { build(:answer) }
 
-    it 'assigns the requested answer to @answer' do
-      patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :json
+    context 'with valid data' do
+      let(:update_answer) do
+        patch :update, id: answer, question_id: question, answer: answer_updates.attributes, format: :json
+      end
 
-      expect(assigns(:answer)).to eq answer
+      it 'renders answer' do
+        expect(update_answer).to render_template('answers/_answer')
+      end
+
+      it 'updates answer attributes' do
+        expect { update_answer }.to change { answer.reload.body }.from(answer.body).to(answer_updates.body)
+      end
     end
 
-    it 'changes answer attributes' do
-      patch :update,
-            id: answer,
-            question_id: question,
-            answer: { body: '098765432109876543210987654321' },
-            format: :json
-      answer.reload # ensure that we just took it from db
+    context 'with invalid data' do
+      let(:invalid_answer_update) do
+        patch :update, id: answer, question_id: question, answer: attributes_for(:invalid_answer), format: :json
+      end
 
-      expect(response.content_type).to eq('application/json')
-    end
-
-    it 'renders answer' do
-      expect(
-        patch :update,
-              id: answer,
-              question_id: question,
-              answer: attributes_for(:answer),
-              format: :json).to render_template(partial: 'answers/answer')
+      it 'doesnt update answer' do
+        expect { invalid_answer_update }.to_not change { answer.reload.body }
+      end
     end
   end
 

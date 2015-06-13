@@ -37,7 +37,7 @@ class AnswersController < ApplicationController
   def update
     if owns_answer?
       @answer.update(answer_params)
-      respond_with @question, @answer do |format|
+      respond_with @answer do |format|
         format.json { render partial: 'answers/answer' }
       end
     end
