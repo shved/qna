@@ -16,7 +16,7 @@
             remote: true, method: :delete, data: { answer: answer }
         p= link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
         br
-        = form_for [@question, answer], remote: true, data: { type: :json, id: answer.id }, html: { id: "edit-answer-#{ answer.id }" } do |f|
+        = form_for [@question, answer], remote: true, data: { id: answer.id }, html: { id: "edit-answer-#{ answer.id }" } do |f|
             = f.label :body, 'Answer'
             .answer-errors
             = f.text_area :body

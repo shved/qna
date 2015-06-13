@@ -41,25 +41,32 @@ RSpec.describe AnswersController, type: :controller do
   #==============================
   describe 'PATCH # update' do
     sign_in_user
-    let(:answer_updates) { build(:answer) }
 
     context 'with valid data' do
       let(:update_answer) do
-        patch :update, id: answer, question_id: question, answer: answer_updates.attributes, format: :json
-      end
-
-      it 'renders answer' do
-        expect(update_answer).to render_template('answers/_answer')
+        patch :update, id: answer, question_id: question, answer: { body: 'asdfasdfasdfasdfasdfasdf' }, format: :js
       end
 
       it 'updates answer attributes' do
-        expect { update_answer }.to change { answer.reload.body }.from(answer.body).to(answer_updates.body)
+        patch(
+          :update,
+          id: answer,
+          question_id: answer.question,
+          answer: { body: 'asdfasdfasdfasdfasdfasdf'},
+          format: :js
+        )
+        answer.reload
+        expect(answer.body).to eq 'asdfasdfasdfasdfasdfasdf'
+      end
+
+      it 'renders answer' do
+        expect(update_answer).to render_template('answers/update')
       end
     end
 
     context 'with invalid data' do
       let(:invalid_answer_update) do
-        patch :update, id: answer, question_id: question, answer: attributes_for(:invalid_answer), format: :json
+        patch :update, id: answer, question_id: question, answer: attributes_for(:invalid_answer), format: :js
       end
 
       it 'doesnt update answer' do

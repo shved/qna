@@ -5,8 +5,7 @@ class AnswersController < ApplicationController
 
   include Voted
 
-  respond_to :json, only: :update
-  respond_to :js, only: :create
+  respond_to :js, only: [:create, :update]
 
   def index
     @answers = @question.answers
@@ -37,10 +36,8 @@ class AnswersController < ApplicationController
   def update
     if owns_answer?
       @answer.update(answer_params)
-      respond_with @answer do |format|
-        format.json { render partial: 'answers/answer' }
-      end
     end
+    respond_with @answer
   end
 
   def destroy

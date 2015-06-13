@@ -7,16 +7,16 @@ editAnswer = (e) ->
   answer_id = $(this).data('answerId')
   $("#edit-answer-#{ answer_id }").show()
 
-editAnswerSuccess = (e, data, status, xhr) ->
-  answer = $.parseJSON(xhr.responseText)
-  $(this).hide()
-  $('#answer-' + answer.id).replaceWith(JST['templates/answer']({ answer: answer }))
+# editAnswerSuccess = (e, data, status, xhr) ->
+#   answer = $.parseJSON(xhr.responseText)
+#   $(this).hide()
+#   $('#answer-' + answer.id).replaceWith(JST['templates/answer']({ answer: answer }))
 
-editAnswerError = (e, data, status, xhr) ->
-  errors = $.parseJSON(xhr.responseText)
-  id = $(this).attr('data-id')
-  $.each errors, (index, value) ->
-    $('#answer-' + id + ' > .answer-errors').append(value)
+# editAnswerError = (e, data, status, xhr) ->
+#   errors = $.parseJSON(xhr.responseText)
+#   id = $(this).attr('data-id')
+#   $.each errors, (index, value) ->
+#     $('#answer-' + id + ' > .answer-errors').append(value)
 
 # createAnswerSuccess = (e, data, status, xhr) ->
 #   answer = $.parseJSON(xhr.responseText)
@@ -42,8 +42,8 @@ $(document).ready ->
   $(document).on('click', '.edit-answer-link', editAnswer)
   # $(document).on('ajax:success', 'form.new_answer', createAnswerSuccess)
   # $(document).on('ajax:error', 'form.new_answer', createAnswerError)
-  $(document).on('ajax:success', 'form.edit_answer', editAnswerSuccess)
-  $(document).on('ajax:error', 'form.edit_answer', editAnswerError)
+  # $(document).on('ajax:success', 'form.edit_answer', editAnswerSuccess)
+  # $(document).on('ajax:error', 'form.edit_answer', editAnswerError)
   $(document).on('ajax:success', '.answers .vote-box', vote)
   $(document).on('ajax:error', '.answers .vote-box', voteError)
 
