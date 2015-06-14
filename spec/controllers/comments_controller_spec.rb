@@ -26,8 +26,8 @@ RSpec.describe CommentsController, type: :controller do
             post :create,
                  comment: attributes_for(:invalid_comment),
                  question_id: question,
-                 format: :js }
-            .not_to change(Comment, :count)
+                 format: :js
+            }.not_to change(Comment, :count)
         end
 
         it 'renders unprocessable entity' do
@@ -45,8 +45,8 @@ RSpec.describe CommentsController, type: :controller do
                  comment: attributes_for(:comment),
                  question_id: question,
                  answer_id: answer,
-                 format: :js }
-            .to change(answer.comments, :count).by(1)
+                 format: :js
+            }.to change(answer.comments, :count).by(1)
         end
 
         it 'response js' do
@@ -66,8 +66,8 @@ RSpec.describe CommentsController, type: :controller do
                  comment: attributes_for(:invalid_comment),
                  question_id: question,
                  answer_id: answer,
-                 format: :js }
-            .not_to change(Comment, :count)
+                 format: :js
+            }.not_to change(Comment, :count)
         end
 
         it 'renders unprocessable entity' do
