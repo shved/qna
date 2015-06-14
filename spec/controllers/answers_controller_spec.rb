@@ -23,11 +23,11 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create,
                       question_id: question,
                       answer: attributes_for(:invalid_answer),
-                      format: :js }.to_not change(Answer, :count)
+                      format: :js }
+               .to_not change(Answer, :count)
       end
     end
   end
-
 
   #==============================
   describe 'PATCH # update' do
@@ -36,7 +36,11 @@ RSpec.describe AnswersController, type: :controller do
       let(:update_answer) do
         answer.user = user
         sign_in user
-        patch :update, id: answer, question_id: question, answer: { body: 'asdfasdfasdfasdfasdfasdf' }, format: :js
+        patch :update,
+              id: answer,
+              question_id: question,
+              answer: { body: 'asdfasdfasdfasdfasdfasdf' },
+              format: :js
       end
 
       it 'updates answer attributes' do

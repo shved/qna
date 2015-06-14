@@ -17,7 +17,7 @@ RSpec.feature 'Comment an answer', %q{
     end
 
     scenario 'creates a comment', js: true do
-      within ".answer .comments" do
+      within '.answer .comments' do
         click_on 'Leave a comment'
         fill_in 'Your comment', with: comment.body
         click_on 'Submit'
@@ -30,7 +30,7 @@ RSpec.feature 'Comment an answer', %q{
     before { visit question_path question }
 
     scenario 'can not comment an answer' do
-      within ".answer .comments" do
+      within '.answer .comments' do
         expect(page).not_to have_link 'Leave a comment'
       end
     end
