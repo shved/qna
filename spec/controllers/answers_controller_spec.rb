@@ -2,59 +2,45 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
-  let!(:question) { create(:question, user: user) }
-  let!(:answer) { create(:answer, question: question, user: user) }
+  let(:question) { create(:question, user: user) }
+  let(:answer) { create(:answer, question: question, user: user) }
   let!(:other_answer) { create(:answer, question: question) }
 
   # answer creation response made with pure websocket publishing
 
-  # describe 'POST # create' do
-  #   sign_in_user
+  describe 'POST # create' do
+    sign_in_user
 
-  #   context 'with valid attributes' do
-  #     it 'saves the new answer in the database' do
-  #       expect { post :create, question_id: question, answer: attributes_for(:answer), format: :json }
-  #              .to change(question.answers, :count).by(1)
-  #     end
+    context 'with valid attributes' do
+      it 'saves the new answer in the database' do
+        expect { post :create, question_id: question, answer: attributes_for(:answer), format: :js }
+               .to change(question.answers, :count).by(1)
+      end
+    end
 
-  #     it 'renders create template' do
-  #       post :create, question_id: question, answer: attributes_for(:answer), format: :json
-  #       expect(response.header['Content-Type']).to include 'application/json'
-  #     end
-  #   end
+    context 'with invalid attributes' do
+      it 'does not save the answer' do
+        expect { post :create,
+                      question_id: question,
+                      answer: attributes_for(:invalid_answer),
+                      format: :js }.to_not change(Answer, :count)
+      end
+    end
+  end
 
-  #   context 'with invalid attributes' do
-  #     it 'does not save the answer' do
-  #       expect { post :create,
-  #                     question_id: question,
-  #                     answer: attributes_for(:invalid_answer),
-  #                     format: :json }.to_not change(Answer, :count)
-  #     end
-
-  #     it 'renders create template' do
-  #       post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :json
-  #       expect(response.header['Content-Type']).to include 'application/json'
-  #     end
-  #   end
-  # end
 
   #==============================
   describe 'PATCH # update' do
-    sign_in_user
-
     context 'with valid data' do
+      before { @request.env['devise.mapping'] = Devise.mappings[:user] }
       let(:update_answer) do
+        answer.user = user
+        sign_in user
         patch :update, id: answer, question_id: question, answer: { body: 'asdfasdfasdfasdfasdfasdf' }, format: :js
       end
 
       it 'updates answer attributes' do
-        patch(
-          :update,
-          id: answer,
-          question_id: answer.question,
-          answer: { body: 'asdfasdfasdfasdfasdfasdf'},
-          format: :js
-        )
+        update_answer
         answer.reload
         expect(answer.body).to eq 'asdfasdfasdfasdfasdfasdf'
       end
