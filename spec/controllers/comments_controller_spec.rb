@@ -24,9 +24,9 @@ RSpec.describe CommentsController, type: :controller do
         it 'does not save a new comment to the database' do
           expect {
             post :create,
-            comment: attributes_for(:invalid_comment),
-            question_id: question,
-            format: :js }
+                 comment: attributes_for(:invalid_comment),
+                 question_id: question,
+                 format: :js }
             .not_to change(Comment, :count)
         end
 
@@ -42,10 +42,10 @@ RSpec.describe CommentsController, type: :controller do
         it 'saves a new comment to the database' do
           expect {
             post :create,
-            comment: attributes_for(:comment),
-            question_id: question,
-            answer_id: answer,
-            format: :js }
+                 comment: attributes_for(:comment),
+                 question_id: question,
+                 answer_id: answer,
+                 format: :js }
             .to change(answer.comments, :count).by(1)
         end
 
@@ -63,10 +63,10 @@ RSpec.describe CommentsController, type: :controller do
         it 'does not save a new comment to the database' do
           expect {
             post :create,
-            comment: attributes_for(:invalid_comment),
-            question_id: question,
-            answer_id: answer,
-            format: :js }
+                 comment: attributes_for(:invalid_comment),
+                 question_id: question,
+                 answer_id: answer,
+                 format: :js }
             .not_to change(Comment, :count)
         end
 

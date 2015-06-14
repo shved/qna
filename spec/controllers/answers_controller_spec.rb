@@ -22,9 +22,9 @@ RSpec.describe AnswersController, type: :controller do
       it 'does not save the answer' do
         expect {
           post :create,
-          question_id: question,
-          answer: attributes_for(:invalid_answer),
-          format: :js }
+               question_id: question,
+               answer: attributes_for(:invalid_answer),
+               format: :js }
           .to_not change(Answer, :count)
       end
     end
