@@ -647,7 +647,7 @@ Style/Blocks:
   Description: Avoid using {...} for multi-line blocks (multiline chaining is always
     ugly). Prefer {...} over do...end for single-line blocks.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#single-line-blocks
-  Enabled: true
+  Enabled: false
   Exclude:
   - app/spec/**/*.rb
 Style/CaseEquality:

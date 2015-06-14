@@ -14,7 +14,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'with valid attributes' do
       it 'saves the new answer in the database' do
         expect { post :create, question_id: question, answer: attributes_for(:answer), format: :js }
-               .to change(question.answers, :count).by(1)
+          .to change(question.answers, :count).by(1)
       end
     end
 
@@ -24,7 +24,7 @@ RSpec.describe AnswersController, type: :controller do
                       question_id: question,
                       answer: attributes_for(:invalid_answer),
                       format: :js }
-               .to_not change(Answer, :count)
+          .to_not change(Answer, :count)
       end
     end
   end
