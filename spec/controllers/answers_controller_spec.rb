@@ -25,7 +25,7 @@ RSpec.describe AnswersController, type: :controller do
                question_id: question,
                answer: attributes_for(:invalid_answer),
                format: :js
-          }.to_not change(Answer, :count)
+        }.to_not change(Answer, :count)
       end
     end
   end
