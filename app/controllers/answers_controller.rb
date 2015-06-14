@@ -5,7 +5,7 @@ class AnswersController < ApplicationController
 
   include Voted
 
-  respond_to :js, only: [:create, :update]
+  respond_to :js, only: [:create, :update, :destroy, :mark_best]
 
   def index
     @answers = @question.answers
@@ -42,15 +42,14 @@ class AnswersController < ApplicationController
 
   def destroy
     if owns_answer?
-      @answer.destroy
-      flash[:notice] = 'Your answer deleted'
+      respond_with(@answer.destroy)
     end
   end
 
   def mark_best
     if owns_question?
-      @answer.mark_best
       flash[:notice] = 'Successfully accepted answer'
+      respond_with(@answer.mark_best)
     end
   end
 
