@@ -22,10 +22,12 @@ RSpec.describe CommentsController, type: :controller do
 
       context 'with invalid attributes' do
         it 'does not save a new comment to the database' do
-          expect { post :create,
-                        comment: attributes_for(:invalid_comment),
-                        question_id: question,
-                        format: :js }.not_to change(Comment, :count)
+          expect {
+            post :create,
+            comment: attributes_for(:invalid_comment),
+            question_id: question,
+            format: :js }
+            .not_to change(Comment, :count)
         end
 
         it 'renders unprocessable entity' do
@@ -38,11 +40,12 @@ RSpec.describe CommentsController, type: :controller do
     describe 'answers comment' do
       context 'with valid attributes' do
         it 'saves a new comment to the database' do
-          expect { post :create,
-                        comment: attributes_for(:comment),
-                        question_id: question,
-                        answer_id: answer,
-                        format: :js }
+          expect {
+            post :create,
+            comment: attributes_for(:comment),
+            question_id: question,
+            answer_id: answer,
+            format: :js }
             .to change(answer.comments, :count).by(1)
         end
 
@@ -58,11 +61,12 @@ RSpec.describe CommentsController, type: :controller do
 
       context 'with invalid attributes' do
         it 'does not save a new comment to the database' do
-          expect { post :create,
-                        comment: attributes_for(:invalid_comment),
-                        question_id: question,
-                        answer_id: answer,
-                        format: :js }
+          expect {
+            post :create,
+            comment: attributes_for(:invalid_comment),
+            question_id: question,
+            answer_id: answer,
+            format: :js }
             .not_to change(Comment, :count)
         end
 
