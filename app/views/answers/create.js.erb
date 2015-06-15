@@ -1,6 +1,6 @@
 <% if @answer.errors.present? %>
   <% @answer.errors.full_messages.each do |message| %>
-    $('.comment-create-form .comment-errors').html('<%= j message %>');
+    $('.new_answer .answer-errors').html('<%= j message %>');
   <% end %>
 <% else %>
   $('.answers').html('<%= j render 'questions/answers' %>');

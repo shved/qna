@@ -1,21 +1,12 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!, :load_commentable
+  after_action :publish_comment, only: :create
 
   respond_to :js
 
   def create
-    respond_with(@comment = Comment.create(comment_params.merge(commentable: @commentable))) do |format|
-      format.js do
-        if @comment.save
-          PrivatePub.publish_to(
-            "/questions/#{ @commentable.try(:question).try(:id) || @commentable.id }/comments",
-            comment: render(template: 'comments/comment.json.jbuilder')
-          )
-        else
-          render 'comments/error'
-        end
-      end
-    end
+    @comment = Comment.create(comment_params.merge(commentable: @commentable))
+    respond_with(@comment)
   end
 
   private
@@ -28,5 +19,10 @@ class CommentsController < ApplicationController
 
   def comment_params
     params.require(:comment).permit(:body).merge(user_id: current_user.id)
+  end
+
+  def publish_comment
+    PrivatePub.publish_to "/questions/#{ @commentable.try(:question).try(:id) || @commentable.id }/comments",
+                          comment: render_to_string(template: 'comments/comment.json.jbuilder')
   end
 end

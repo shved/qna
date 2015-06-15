@@ -2,6 +2,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question
   before_action :load_answer, only: [:destroy, :show, :mark_best, :update]
+  after_action :publish_answer, only: :create
 
   include Voted
 
@@ -19,18 +20,7 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.create answer_params.merge(user: current_user)
-
-    respond_with @answer do |format|
-      format.js do
-        if @answer.valid?
-          PrivatePub.publish_to "/questions/#{ @question.id }/answers",
-                                answer: render('answers/_answer.json.jbuilder')
-        else
-          render 'answers/error'
-        end
-      end
-    end
+    respond_with(@answer = @question.answers.create(answer_params.merge(user: current_user)))
   end
 
   def update
@@ -49,18 +39,19 @@ class AnswersController < ApplicationController
   def mark_best
     if owns_question?
       flash[:notice] = 'Successfully accepted answer'
-      respond_with(@answer.mark_best)
+      @answer.mark_best
+      respond_with(@answer)
     end
   end
 
   private
 
   def owns_answer?
-    return true if @answer.user == current_user
+    return true if @answer.user_id == current_user.id
   end
 
   def owns_question?
-    return true if @question.user == current_user
+    return true if @question.user_id == current_user.id
   end
 
   def load_question
@@ -73,5 +64,11 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body, :question_id, attachments_attributes: [:id, :file, :_destroy])
+  end
+
+  def publish_answer
+    return unless @answer.valid?
+    PrivatePub.publish_to "/questions/#{ @question.id }/answers",
+                          answer: render_to_string(template: 'answers/_answer.json.jbuilder')
   end
 end
