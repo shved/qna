@@ -3,42 +3,19 @@ module Voted
   included do
     before_action :load_votable, only: [:vote_up, :vote_down, :unvote]
     before_action :authorize_vote, only: [:vote_up, :vote_down]
+    respond_to :json, only: [:vote_up, :vote_down, :unvote]
   end
 
   def vote_up
-    respond_to do |format|
-      format.json do
-        if @votable.vote(current_user, 1)
-          render partial: 'votes/vote'
-        else
-          render plain: 'vote missed', layout: true
-        end
-      end
-    end
+    respond_with(@votable.vote(current_user, 1), template: 'votes/_vote.json.jbuilder')
   end
 
   def vote_down
-    respond_to do |format|
-      format.json do
-        if @votable.vote(current_user, -1)
-          render partial: 'votes/vote'
-        else
-          render plain: 'vote missed', layout: true
-        end
-      end
-    end
+    respond_with(@votable.vote(current_user, -1), template: 'votes/_vote.json.jbuilder')
   end
 
   def unvote
-    respond_to do |format|
-      format.json do
-        if @votable.voted_by?(current_user) && @votable.unvote(current_user)
-          render partial: 'votes/vote'
-        else
-          render plain: 'vote missed', layout: true
-        end
-      end
-    end
+    respond_with(@votable.unvote(current_user), template: 'votes/_vote.json.jbuilder')
   end
 
   private

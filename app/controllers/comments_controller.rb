@@ -12,8 +12,10 @@ class CommentsController < ApplicationController
   private
 
   def load_commentable
-    params.each do |param_name, value|
-      @commentable = param_name[0..-3].classify.constantize.find(value) if /(.+)_id$/.match(param_name)
+    if params[:answer_id]
+      @commentable = Answer.find(params[:answer_id])
+    elsif params[:question_id]
+      @commentable = Question.find(params[:question_id])
     end
   end
 
