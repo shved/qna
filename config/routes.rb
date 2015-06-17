@@ -9,12 +9,10 @@ Rails.application.routes.draw do
     end
   end
 
-  concern :commentable do
-    resource :comments, only: :create
-  end
-
-  resources :questions, concerns: [:votable, :commentable] do
-    resources :answers, concerns: [:votable, :commentable] do
+  resources :questions, concerns: :votable do
+    resources :comments, only: :create, defaults: { commentable: 'question' }
+    resources :answers, concerns: :votable do
+      resources :comments, only: :create, defaults: { commentable: 'answer' }
       patch :mark_best, on: :member
     end
   end

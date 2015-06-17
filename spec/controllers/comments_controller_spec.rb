@@ -1,84 +1,51 @@
 require 'rails_helper'
 
 RSpec.describe CommentsController, type: :controller do
-  let(:question) { create :question }
-  let(:answer) { create :answer }
-  let(:comment) { create :comment }
+  # let(:question) { create(:question) }
+  # let(:answer) { create(:answer) }
+  # let(:user) { create(:user) }
+  # let(:comment) { create(:comment, user: user) }
+  # let(:attributes) { attributes_for(:comment) }
+  # let(:invalid_attr) { attributes_for(:invalid_comment) }
+  # let(:post_comment) { post :create, { comment: attributes }.merge(comment_params) }
+  # let(:post_invalid) { post :create, { comment: invalid_attr }.merge(comment_params) }
+  # let(:delete_comment) { delete :destroy, id: comment, format: :js }
+  # before { sign_in user }
 
-  describe 'POST#create' do
-    sign_in_user
-    describe 'questions comment' do
-      context 'with valid attributes' do
-        it 'saves a new comment to the database' do
-          expect { post :create, comment: attributes_for(:comment), question_id: question, format: :js }
-            .to change(question.comments, :count).by(1)
-        end
+  # describe 'comments on question' do
+  #   let(:commentable_class) { commentable_name.classify.constantize }
+  #   let(:comment_params) do
+  #     { "#{ commentable_name }_id": commentable, commentable: commentable_name, format: :js }
+  #   end
+  #   let(:commentable) { send commentable_name }
 
-        it 'response js' do
-          post :create, comment: attributes_for(:comment), question_id: question, format: :js
-          expect(response.content_type).to eq('text/javascript')
-        end
-      end
+  #   describe "POST # create" do
+  #     context 'with valid attributes' do
+  #       it 'assigns @commentable' do
+  #         post_comment
+  #         expect(assigns(:commentable)).to be_a commentable_class
+  #       end
 
-      context 'with invalid attributes' do
-        it 'does not save a new comment to the database' do
-          expect {
-            post :create,
-                 comment: attributes_for(:invalid_comment),
-                 question_id: question,
-                 format: :js
-          }.not_to change(Comment, :count)
-        end
+  #       it 'saves new comment in db' do
+  #         expect { post_comment }.to change { commentable.comments.count }.by(1)
+  #       end
 
-        it 'renders unprocessable entity' do
-          post :create, comment: attributes_for(:invalid_comment), question_id: question, format: :js
-          expect(response.content_type).to eq('text/javascript')
-        end
-      end
-    end
+  #       it 'renders template create' do
+  #         post_comment
+  #         expect(response).to render_template :create
+  #       end
+  #     end
 
-    describe 'answers comment' do
-      context 'with valid attributes' do
-        it 'saves a new comment to the database' do
-          expect {
-            post :create,
-                 comment: attributes_for(:comment),
-                 question_id: question,
-                 answer_id: answer,
-                 format: :js
-          }.to change(answer.comments, :count).by(1)
-        end
+  #     context 'with invalid attributes' do
+  #       it 'does not save new comment in db' do
+  #         expect { post_invalid }.to_not change { commentable.comments.count }
+  #       end
 
-        it 'response js' do
-          post :create,
-               comment: attributes_for(:comment),
-               question_id: question,
-               answer_id: answer,
-               format: :js
-          expect(response.content_type).to eq('text/javascript')
-        end
-      end
-
-      context 'with invalid attributes' do
-        it 'does not save a new comment to the database' do
-          expect {
-            post :create,
-                 comment: attributes_for(:invalid_comment),
-                 question_id: question,
-                 answer_id: answer,
-                 format: :js
-          }.not_to change(Comment, :count)
-        end
-
-        it 'renders unprocessable entity' do
-          post :create,
-               comment: attributes_for(:invalid_comment),
-               question_id: question,
-               answer_id: answer,
-               format: :js
-          expect(response.content_type).to eq('text/javascript')
-        end
-      end
-    end
-  end
+  #       it 'renders create template' do
+  #         post_invalid
+  #         expect(response).to render_template :create
+  #       end
+  #     end
+  #   end
+  # end
 end

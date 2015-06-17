@@ -11,6 +11,7 @@ module Votable
 
   def unvote(user)
     votes.where(user: user).delete_all
+    self
   end
 
   def voted_by?(user)

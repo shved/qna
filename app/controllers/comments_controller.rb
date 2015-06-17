@@ -12,11 +12,15 @@ class CommentsController < ApplicationController
   private
 
   def load_commentable
-    if params[:answer_id]
-      @commentable = Answer.find(params[:answer_id])
-    elsif params[:question_id]
-      @commentable = Question.find(params[:question_id])
-    end
+    @commentable = commentable_klass.find params["#{ commentable_name }_id"]
+  end
+
+  def commentable_name
+    params[:commentable]
+  end
+
+  def commentable_klass
+    commentable_name.classify.constantize
   end
 
   def comment_params
