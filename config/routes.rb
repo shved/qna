@@ -19,5 +19,5 @@ Rails.application.routes.draw do
 
   resources :attachments, only: :destroy
 
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
 end
