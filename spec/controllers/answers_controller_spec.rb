@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:user) { create(:user) }
+  let!(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
   let(:answer) { create(:answer, question: question, user: user) }
   let!(:other_answer) { create(:answer, question: question) }
@@ -33,9 +33,9 @@ RSpec.describe AnswersController, type: :controller do
   #==============================
   describe 'PATCH # update' do
     context 'with valid data' do
-      before { @request.env['devise.mapping'] = Devise.mappings[:user] }
       let(:update_answer) do
         answer.user = user
+        user.confirm!
         sign_in user
         patch :update,
               id: answer,
@@ -100,6 +100,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH # mark_best' do
     before do
       @user = create(:user)
+      @user.confirm!
       @request.env['devise.mapping'] = Devise.mappings[:user]
       sign_in @user
       question
