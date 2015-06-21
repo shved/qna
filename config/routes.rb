@@ -20,4 +20,7 @@ Rails.application.routes.draw do
   resources :attachments, only: :destroy
 
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
+  devise_scope :user do
+    post '/confirm_email' => 'omniauth_callbacks#confirm_email'
+  end
 end
