@@ -8,11 +8,11 @@ RSpec.feature 'User can login with OAuth', %q{
   before do
     mock_auth_hash
   end
+
   describe 'login with facebook' do
     before { visit new_user_session_path }
     scenario 'sign in user' do
       click_on 'Sign in with Facebook'
-      expect(page).to have_content('test@facebook.com')
       expect(page).to have_content('Successfully authenticated from Facebook account.')
       expect(page).to have_content('Sign out')
     end
@@ -25,7 +25,7 @@ RSpec.feature 'User can login with OAuth', %q{
     end
   end
 
-  describe 'Login with twitter' do
+  describe 'login with twitter' do
     let(:user) { build :user }
     let!(:existing_user) { create :user }
     before do
@@ -45,7 +45,7 @@ RSpec.feature 'User can login with OAuth', %q{
       expect(page).to have_content 'Please enter valid email'
     end
 
-    scenario 'can handle authentication error' do
+    scenario 'handle authentication error' do
       OmniAuth.config.mock_auth[:twitter] = :invalid_credentials
       click_on 'Sign in with Twitter'
       expect(page).to have_content('Sign in with Twitter')

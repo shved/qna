@@ -5,7 +5,7 @@ feature 'Add files to answer', %q{
   As an answers author
   I want to be able to attach files
 }, type: :feature do
-  given(:user) { create(:user) }
+  given!(:user) { create(:user) }
   given(:question) { create(:question) }
 
   background do

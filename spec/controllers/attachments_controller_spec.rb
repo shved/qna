@@ -1,12 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe AttachmentsController, type: :controller do
+  let(:user) { create(:user) }
   let(:non_author) { create(:user) }
-  let(:question) { create(:question) }
+  let(:question) { create(:question, user: user) }
   let!(:files) { create_list(:attachment, 2, attachable: question) }
 
   context 'as an author' do
-    before { sign_in question.user }
+    before do
+      user.confirm!
+      sign_in question.user
+    end
 
     describe 'DELETE # destroy' do
       it 'deletes files from database' do
@@ -22,7 +26,10 @@ RSpec.describe AttachmentsController, type: :controller do
   end
 
   context 'as a non-author' do
-    before { sign_in non_author }
+    before do
+      non_author.confirm!
+      sign_in non_author
+    end
 
     describe 'DELETE #destroy' do
       it 'dont delete files from database' do

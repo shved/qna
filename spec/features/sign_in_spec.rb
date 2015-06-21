@@ -9,6 +9,7 @@ RSpec.feature 'User sign in', %q{
 
   scenario 'Registered user try to sign in' do
     visit new_user_session_path
+    user.confirm!
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
     click_on 'Log in'

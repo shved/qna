@@ -105,6 +105,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     before do
       @user = user
+      @user.confirm!
       @request.env['devise.mapping'] = Devise.mappings[:user]
       sign_in @user
       create_auth_question
