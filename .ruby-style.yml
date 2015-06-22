@@ -19,6 +19,7 @@ AllCops:
   - "vendor/**/*"
   - "db/schema.rb"
   - "config/*"
+  - "db/*.rb"
   RunRailsCops: true
   DisplayCopNames: false
   StyleGuideCopsOnly: true
