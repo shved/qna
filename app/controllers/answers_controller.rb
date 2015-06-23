@@ -8,6 +8,8 @@ class AnswersController < ApplicationController
 
   respond_to :js, only: [:create, :update, :destroy, :mark_best]
 
+  authorize_resource
+
   def index
     @answers = @question.answers
   end

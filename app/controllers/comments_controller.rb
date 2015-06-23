@@ -4,6 +4,8 @@ class CommentsController < ApplicationController
 
   respond_to :js
 
+  authorize_resource
+
   def create
     @comment = Comment.create(comment_params.merge(commentable: @commentable))
     respond_with(@comment)

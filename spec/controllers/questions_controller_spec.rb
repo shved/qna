@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
-  let(:question) { create(:question)  }
+  let(:question) { create(:question) }
 
   describe 'GET # index' do
     let(:questions) { create_list(:question, 2) }
@@ -69,6 +69,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 're-renders new view' do
         post :create, question: attributes_for(:invalid_question)
+
         expect(response).to render_template :new
       end
     end
@@ -77,46 +78,52 @@ RSpec.describe QuestionsController, type: :controller do
   #==============================
   describe 'PATCH # update' do
     sign_in_user
+    let(:own_question) { create(:question, user: @user) }
+    let(:new_question) { build(:question) }
 
     it 'assigns the requested question to @question' do
-      patch :update, id: question, question: attributes_for(:question), format: :js
-      expect(assigns(:question)).to eq question
+      patch :update, id: own_question, question: attributes_for(:question), format: :js
+
+      expect(assigns(:question)).to eq own_question
     end
 
     it 'changes question attributes' do
       patch :update,
-            id: question,
-            question: { title: '098765432112345', body: '098765432109876543210987654321' },
+            id: own_question,
+            question: new_question.attributes,
             format: :js
-      question.reload # ensure that we just took it from db
-      expect(question.title).to eq '098765432112345'
-      expect(question.body).to eq '098765432109876543210987654321'
+      own_question.reload # ensure that we just took it from db
+
+      expect(question.title).to eq new_question.title
+      expect(question.body).to eq new_question.body
     end
 
     it 'renders update template' do
-      patch :update, id: question, question: attributes_for(:question), format: :js
+      patch :update, id: own_question, question: attributes_for(:question), format: :js
+
       expect(response).to render_template :update
     end
   end
 
   #==============================
   describe 'PATCH # destroy' do
-    let(:create_auth_question) { create(:question, user: @user) }
+    let(:own_question) { create(:question, user: @user) }
 
     before do
       @user = user
       @user.confirm!
       @request.env['devise.mapping'] = Devise.mappings[:user]
       sign_in @user
-      create_auth_question
+      own_question
     end
 
     it 'deletes question' do
-      expect { delete :destroy, id: create_auth_question, user: @user }.to change(Question, :count).by(-1)
+      expect { delete :destroy, id: own_question, user: @user }.to change(Question, :count).by(-1)
     end
 
     it 'redirects to index view' do
-      delete :destroy, id: create_auth_question
+      delete :destroy, id: own_question
+
       expect(response).to redirect_to questions_path
     end
   end
