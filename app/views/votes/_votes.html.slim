@@ -1,23 +1,23 @@
 div id="vote_for_#{ votable.class.name }_#{ votable.id }" class="vote-box"
   .vote-errors
-  - if votable.has_attribute?('question_id') && current_user.can_vote?(votable)
+  - if votable.class.name == 'Answer'
     / links for voting answer
-    - if can? :unvote, @question
+    - if can? :unvote, votable
       p = link_to 'Cancel my vote', polymorphic_path([:unvote, votable.question, votable]),
         method: :patch, remote: true, data: { type: :json }
-    - else
+    - elsif current_user.can_vote?(votable)
       p
         = link_to 'vote up', polymorphic_path([:vote_up, votable.question, votable]),
           method: :patch, remote: true, data: { type: :json }
         |  /
         = link_to 'vote down', polymorphic_path([:vote_down, votable.question, votable]),
           method: :patch, remote: true, data: { type: :json }
-  - elsif votable.has_attribute?('answer_id') && current_user.can_vote?(votable)
+  - elsif votable.class.name == 'Question'
     / links for voting question
-    - if can? :unvote, @answer
+    - if can? :unvote, votable
       p = link_to 'Cancel my vote', polymorphic_path([:unvote, votable]),
         method: :patch, remote: true, data: { type: :json }
-    - else
+    - elsif current_user.can_vote?(votable)
       p
         = link_to 'vote up', polymorphic_path([:vote_up, votable]),
           method: :patch, remote: true, data: { type: :json }

@@ -26,6 +26,8 @@ describe Ability, type: :model do
 		let(:answer_in_user_question) { create :answer, question: user_question }
 		let(:answer) { create :answer }
 		let(:user_answer) { create :answer, user: user }
+		let(:voted_question) { question.vote(user, 1); question }
+		let(:voted_answer) { answer.vote(user, 1); answer }
 
 		it { should_not be_able_to :manage, :all }
 
@@ -54,10 +56,10 @@ describe Ability, type: :model do
 
 		it { should be_able_to :vote_up, answer, user: user }
     it { should be_able_to :vote_down, answer, user: user }
-    it { should be_able_to :unvote, answer, user: user }
+    it { should be_able_to :unvote, voted_answer, user: user }
     it { should be_able_to :vote_up, question, user: user }
     it { should be_able_to :vote_down, question, user: user }
-    it { should be_able_to :unvote, question, user: user }
+    it { should be_able_to :unvote, voted_question, user: user }
 
     it { should_not be_able_to :vote_up, user_answer, user: user }
     it { should_not be_able_to :vote_down, user_answer, user: user }

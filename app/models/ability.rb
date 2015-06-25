@@ -29,12 +29,17 @@ class Ability
     can :mark_best, Answer do |answer|
       user.owner_of?(answer.question)
     end
+
     can :vote_up, [Question, Answer] do |resource|
-      !user.can_vote?(resource)
+      user.can_vote?(resource)
     end
+
     can :vote_down, [Question, Answer] do |resource|
-      !user.can_vote?(resource)
+      user.can_vote?(resource)
     end
-    can :unvote, [Question, Answer]
+
+    can :unvote, [Question, Answer] do |resource|
+      user.voted_for?(resource)
+    end
   end
 end

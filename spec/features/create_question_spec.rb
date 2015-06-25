@@ -22,9 +22,7 @@ RSpec.feature 'Create question', %q{
 
   scenario 'Non-authenticated user tries to create question' do
     visit questions_path
-    click_on 'ask it here'
 
-    expect(current_path).to eq new_user_session_path
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_content 'ask it here'
   end
 end
