@@ -4,9 +4,10 @@
   p= @question.body
   = render partial: 'attachments/attachments', locals: { container: @question }
 
-  - if current_user && (@question.user_id == current_user.id)
+  - if can? :destroy, @question
     a= link_to 'Delete question', @question, method: :delete
     br
+  - if can? :update, @question
     a= link_to 'Edit question', '', class: 'edit-question-link'
     = render 'edit'
   - elsif current_user
@@ -15,8 +16,8 @@
   .comments id="comments-for-question-#{ @question.id }"
     - if @question.comments.any?
       = render 'comments/comments', commentable: @question
-
-    = render 'comments/new', commentable: @question
+    - if can? :create, Comment
+      = render 'comments/new', commentable: @question
 
   hr
 
@@ -25,10 +26,10 @@ h4 Answers
   = render 'answers'
   hr
 
-- if current_user
+- if can? :create, Answer
   = render 'answers/new'
 - else
-  | Sign in or sign up to leave answers
+  | Sign in or sign up to give answers
 
 = subscribe_to "/questions/#{ @question.id }/answers"
 = subscribe_to "/questions/#{ @question.id }/comments"

@@ -6,14 +6,15 @@
       - if answer.best
         p= 'The best answer!'
       - else
-        - if current_user == @question.user
+        - if can? :mark_best, @answer
           p= link_to 'Make best', mark_best_question_answer_path(@question, answer),
             id: "make-best-#{ answer.id }", method: :patch, remote: true
-      - if user_signed_in?
+      - if current_user
         = render partial: 'votes/votes', locals: { votable: answer }
-      - if current_user == answer.user
+      - if can? :destroy, @answer
         p= link_to 'Delete answer', [answer.question, answer],
             remote: true, method: :delete, data: { answer: answer }
+      - if can? :update, @answer
         p= link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
         br
         = form_for [@question, answer], remote: true, data: { id: answer.id }, html: { id: "edit-answer-#{ answer.id }" } do |f|
@@ -31,6 +32,6 @@
       .comments id="comments-for-answer-#{ answer.id }"
         - if answer.comments.any?
           = render 'comments/comments', commentable: answer
-
-        = render 'comments/new', commentable: answer
+        - if can? :create, Comment
+          = render 'comments/new', commentable: answer
   hr

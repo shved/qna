@@ -30,10 +30,10 @@ class Ability
       user.owner_of?(answer.question)
     end
     can :vote_up, [Question, Answer] do |resource|
-      !user.owner_of?(resource)
+      !user.can_vote?(resource)
     end
     can :vote_down, [Question, Answer] do |resource|
-      !user.owner_of?(resource)
+      !user.can_vote?(resource)
     end
     can :unvote, [Question, Answer]
   end

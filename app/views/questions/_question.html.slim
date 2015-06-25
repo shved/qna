@@ -1,10 +1,13 @@
 h2= @question.title
 
-- if current_user && (@question.user_id == current_user.id)
+p= @question.body
+= render partial: 'attachments/attachments', locals: { container: @question }
+
+- if can? :destroy, @question
   a= link_to 'Delete question', @question, method: :delete
   br
+- if can? :update, @question
   a= link_to 'Edit question', '', class: 'edit-question-link'
   = render 'edit'
 
-p= @question.body
 hr

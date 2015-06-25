@@ -1,8 +1,8 @@
 div id="vote_for_#{ votable.class.name }_#{ votable.id }" class="vote-box"
   .vote-errors
-  - if votable.has_attribute?('question_id') && votable.votable_for?(current_user)
+  - if votable.has_attribute?('question_id') && current_user.can_vote?(votable)
     / links for voting answer
-    - if votable.voted_by? current_user
+    - if can? :unvote, @question
       p = link_to 'Cancel my vote', polymorphic_path([:unvote, votable.question, votable]),
         method: :patch, remote: true, data: { type: :json }
     - else
@@ -12,9 +12,9 @@ div id="vote_for_#{ votable.class.name }_#{ votable.id }" class="vote-box"
         |  /
         = link_to 'vote down', polymorphic_path([:vote_down, votable.question, votable]),
           method: :patch, remote: true, data: { type: :json }
-  - elsif votable.votable_for?(current_user)
+  - elsif votable.has_attribute?('answer_id') && current_user.can_vote?(votable)
     / links for voting question
-    - if votable.voted_by? current_user
+    - if can? :unvote, @answer
       p = link_to 'Cancel my vote', polymorphic_path([:unvote, votable]),
         method: :patch, remote: true, data: { type: :json }
     - else

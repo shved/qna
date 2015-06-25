@@ -1,8 +1,9 @@
 h1 Questions list
 
-p.description
-  'Find your question, or
-  = link_to 'ask it here', new_question_path
+- if can? :create, Question
+	p.description
+	  'Find your question, or
+	  = link_to 'ask it here', new_question_path
 
 br
 - @questions.each do |question|

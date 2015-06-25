@@ -29,4 +29,8 @@ class User < ActiveRecord::Base
   def owner_of?(resource)
     resource.user_id == id
   end
+
+  def can_vote?(resource)
+    !owner_of?(resource) && resource.votes.find_by(user_id: id).nil?
+  end
 end
