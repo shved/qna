@@ -910,7 +910,7 @@ Style/Tab:
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#spaces-indentation
   Enabled: true
   Exclude:
-  - app/models/ability.rb
+  - spec/models/ability.rb
 Style/TrailingWhitespace:
   Description: Avoid trailing whitespace.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#no-trailing-whitespace
