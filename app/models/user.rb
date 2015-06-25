@@ -30,11 +30,11 @@ class User < ActiveRecord::Base
     resource.user_id == id
   end
 
-  def can_vote?(resource)
-    !owner_of?(resource) && resource.votes.find_by(user_id: id).nil?
-  end
-
   def voted_for?(resource)
     resource.votes.where(user_id: id).any?
+  end
+
+  def can_vote?(resource)
+    !owner_of?(resource) && !voted_for?(resource)
   end
 end
