@@ -20,6 +20,7 @@ AllCops:
   - "db/schema.rb"
   - "config/*"
   - "db/*.rb"
+  - "spec/models/ability_spec.rb"
   RunRailsCops: true
   DisplayCopNames: false
   StyleGuideCopsOnly: true

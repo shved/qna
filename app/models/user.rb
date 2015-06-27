@@ -2,7 +2,8 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter]
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable, omniauth_providers: [:facebook, :twitter]
 
   has_many :answers
   has_many :questions
@@ -23,5 +24,17 @@ class User < ActiveRecord::Base
     end
     user.authorizations.create(provider: auth.provider, uid: auth.uid.to_s)
     user
+  end
+
+  def owner_of?(resource)
+    resource.user_id == id
+  end
+
+  def voted_for?(resource)
+    resource.votes.where(user_id: id).any?
+  end
+
+  def can_vote?(resource)
+    !owner_of?(resource) && !voted_for?(resource)
   end
 end
