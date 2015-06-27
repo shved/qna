@@ -3,7 +3,7 @@ class AttachmentsController < ApplicationController
 
   respond_to :js
 
-  skip_authorization_check only: :destroy
+  authorize_resource
 
   def destroy
     @attachment.destroy

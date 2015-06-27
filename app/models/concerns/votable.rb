@@ -19,7 +19,7 @@ module Votable
   end
 
   def votable_for?(user)
-    true unless user_id == user.id
+    user_id == user.id
   end
 
   def score

@@ -26,20 +26,23 @@ class Ability
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer], user: user
     can :destroy, [Question, Answer], user: user
+    can :destroy, Attachment, Attachment do |attachment|
+      attachment.attachable.user_id == user.id
+    end
     can :mark_best, Answer do |answer|
-      user.owner_of?(answer.question)
+      answer.question.user_id == user.id
     end
 
     can :vote_up, [Question, Answer] do |resource|
-      user.can_vote?(resource)
+      user.id != resource.user_id && !resource.voted_by?(user)
     end
 
     can :vote_down, [Question, Answer] do |resource|
-      user.can_vote?(resource)
+      user.id != resource.user_id && !resource.voted_by?(user)
     end
 
     can :unvote, [Question, Answer] do |resource|
-      user.voted_for?(resource)
+      user.id != resource.user_id && resource.votes.where(user: user).exists?
     end
   end
 end
